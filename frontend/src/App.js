@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [utenti, setUtenti] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/utenti')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Utenti ricevuti:', data); // stampa in console
+          setUtenti(data); // aggiorna lo stato
+        })
+        .catch(err => console.error('Errore nel fetch:', err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <h1>Lista utenti (test)</h1>
+        <ul>
+          {utenti.map((utente, index) => (
+              <li key={utente._id || index}>
+                {utente.nome} {utente.cognome} - {utente.email}
+              </li>
+          ))}
+        </ul>
+      </div>
   );
 }
 
