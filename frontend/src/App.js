@@ -4,7 +4,7 @@ function App() {
   const [utenti, setUtenti] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/utenti')
+    fetch('http://localhost:5001/api/utenti')
         .then(res => res.json())
         .then(data => {
           console.log('Utenti ricevuti:', data); // stampa in console

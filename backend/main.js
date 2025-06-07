@@ -15,7 +15,7 @@ app.use(express.json()); //Permette di leggere json nel body delle richieste
 //Rotte API
 app.use('/api/utenti', utentiRoutes);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 app.listen(port, () => { //app.listen accetta due parametri: porta e callback (funzione eseguita subito dopo)
     console.log("Server started on port: " + port);
 })
