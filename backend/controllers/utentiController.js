@@ -27,6 +27,7 @@ exports.getUtenteById = async (req, res) => {
 exports.creaUtente = async (req, res) => {
     try {
         const nuovoUtente = new Utente(req.body);
+        console.log(req.body);
         const utenteSalvato = await nuovoUtente.save();
         res.status(201).json(utenteSalvato);
     } catch (error) {
