@@ -1,150 +1,141 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import { AppBar, Toolbar, Typography, Button, Box, Divider } from "@mui/material"
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-function ResponsiveAppBar() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
+export default function Navbar() {
     return (
-        <AppBar position="static" sx={{ bgcolor: '#7A1F26' }}>
-        <Container maxWidth="xl">
-                <Toolbar disableGutters>
-
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                    >
-                        <img src="/images/Logo_NoBg.png" alt="Logo" style={{ height: 45 }} />
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: 'block', md: 'none' } }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+        <AppBar
+            position="static"
+            elevation={0}
+            sx={{
+                background: "linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #CD853F 100%)",
+                borderBottom: "3px solid #FF6B35",
+                minHeight: "100px",
+            }}
+        >
+            <Toolbar sx={{ py: 3, minHeight: "100px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+                    <Box
+                        component="img"
+                        src="/placeholder.svg?height=50&width=150"
+                        alt="Meat-N-Cheese Logo"
+                        sx={{
+                            height: 50,
+                            width: 150,
+                            mr: 2,
+                            backgroundColor: "white",
+                            borderRadius: 2,
+                            p: 1,
+                            objectFit: "contain",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                        }}
+                    />
                     <Typography
                         variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component="div"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
+                            fontWeight: "bold",
+                            background: "linear-gradient(45deg, #FFD700, #FFA500)",
+                            backgroundClip: "text",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
+                            fontSize: "1.5rem",
                         }}
                     >
-                        LOGO
+                        MEAT-N-CHEESE
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            mx: 1,
+                            fontWeight: "bold",
+                            fontSize: "1.1rem",
+                            "&:hover": {
+                                backgroundColor: "rgba(255,107,53,0.2)",
+                                transform: "translateY(-2px)",
+                            },
+                            transition: "all 0.3s ease",
+                        }}
+                    >
+                        Menu
+                    </Button>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            mx: 1,
+                            fontWeight: "bold",
+                            fontSize: "1.1rem",
+                            "&:hover": {
+                                backgroundColor: "rgba(255,107,53,0.2)",
+                                transform: "translateY(-2px)",
+                            },
+                            transition: "all 0.3s ease",
+                        }}
+                    >
+                        Locations
+                    </Button>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            mx: 1,
+                            fontWeight: "bold",
+                            fontSize: "1.1rem",
+                            "&:hover": {
+                                backgroundColor: "rgba(255,107,53,0.2)",
+                                transform: "translateY(-2px)",
+                            },
+                            transition: "all 0.3s ease",
+                        }}
+                    >
+                        About
+                    </Button>
+
+                    <Divider orientation="vertical" flexItem sx={{ mx: 2, backgroundColor: "rgba(255,255,255,0.3)" }} />
+
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            mx: 1,
+                            borderColor: "white",
+                            color: "white",
+                            fontWeight: "bold",
+                            fontSize: "1rem",
+                            px: 3,
+                            py: 1,
+                            "&:hover": {
+                                borderColor: "#FFD700",
+                                backgroundColor: "rgba(255,215,0,0.1)",
+                                transform: "translateY(-2px)",
+                            },
+                            transition: "all 0.3s ease",
+                        }}
+                    >
+                        Login
+                    </Button>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            mx: 1,
+                            background: "linear-gradient(45deg, #FF6B35, #FF8C42)",
+                            fontWeight: "bold",
+                            fontSize: "1rem",
+                            px: 3,
+                            py: 1,
+                            boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                            "&:hover": {
+                                background: "linear-gradient(45deg, #E55A2B, #E67A35)",
+                                transform: "translateY(-2px)",
+                                boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                            },
+                            transition: "all 0.3s ease",
+                        }}
+                    >
+                        Register
+                    </Button>
+                </Box>
+            </Toolbar>
         </AppBar>
-    );
+    )
 }
-export default ResponsiveAppBar;
