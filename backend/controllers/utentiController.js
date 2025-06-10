@@ -1,33 +1,30 @@
 const Utente = require('../models/utentiModel');
+const RefreshToken = require('../models/refreshTokenModel');
+const jwt = require('jsonwebtoken');
 
-// GET /api/utenti → restituisce tutti gli utenti
-exports.getUtenti = async (req, res) => {
-    try {
-        const utenti = await Utente.find();
-        res.status(200).json(utenti);
-    } catch (error) {
-        res.status(500).json({ errore: 'Errore nel recupero utenti' });
-    }
-};
-
-// GET /api/utenti/:id → restituisce un utente specifico
-exports.getUtenteById = async (req, res) => {
-    try {
-        const utente = await Utente.findById(req.params.id);
-        if (!utente) {
-            return res.status(404).json({ messaggio: 'Utente non trovato' });
-        }
-        res.status(200).json(utente);
-    } catch (error) {
-        res.status(500).json({ errore: 'Errore nel recupero dell\'utente' });
-    }
-};
+//Funzione per generare token
+const generaToken = (idUtente) => {
+    const accessToken = jwt.sign(
+        { id: idUtente },
+        process.env.JWT_SECRET,
+        {expiresIn: '15m'}
+    );
+    const refreshToken = jwt.sign(
+        { id: idUtente },
+        process.env.JWT_SECRET,
+        {expiresIn: '7d'}
+    );
+    return {accessToken, refreshToken};
+}
 
 // POST /api/utenti → crea un nuovo utente
 exports.creaUtente = async (req, res) => {
     try {
         const nuovoUtente = new Utente(req.body);
-        console.log(req.body);
+        //Controlli
+        if (await Utente.findOne({username: nuovoUtente.username})) {
+
+        }
         const utenteSalvato = await nuovoUtente.save();
         res.status(201).json(utenteSalvato);
     } catch (error) {
