@@ -4,13 +4,10 @@ const router = express.Router();
 // Importa il controller degli utenti
 const utentiController = require('../controllers/utentiController');
 
-// Rotta GET /api/utenti → restituisce tutti gli utenti
-router.get('/', utentiController.getUtenti);
+// Rotta POStìT /api/utenti/login → login utente
+router.post('/login', utentiController.loginUtente);
 
-// GET /api/utenti/:id → restituisce un utente per ID
-router.get('/:id', utentiController.getUtenteById);
-
-// Rotta POST /api/utenti → crea un nuovo utente
-router.post('/', utentiController.creaUtente);
+// Rotta POST /api/utenti/register → crea un nuovo utente
+router.post('/register', utentiController.creaUtente);
 
 module.exports = router;

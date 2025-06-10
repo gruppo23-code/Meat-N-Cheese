@@ -65,7 +65,7 @@ utenteSchema.pre('save', async function (next) { //pre('save') è un middleware 
     }
 })
 
-utenteSchema.methods.encryptPassword = async function (pass) { //Dichiarazione di metodo personalizzato su mongoose
+utenteSchema.methods.comparePassword = async function (pass) { //Dichiarazione di metodo personalizzato su mongoose
     return bcrypt.compare(pass, this.password);
 }
 
