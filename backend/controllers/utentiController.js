@@ -2,6 +2,7 @@ const Utente = require('../models/utentiModel');
 const RefreshToken = require('../models/refreshTokenModel');
 const jwt = require('jsonwebtoken');
 
+
 //Funzione per generare token
 const generaToken = (idUtente) => {
     const accessToken = jwt.sign(
@@ -11,7 +12,7 @@ const generaToken = (idUtente) => {
     );
     const refreshToken = jwt.sign(
         { id: idUtente },
-        process.env.JWT_SECRET,
+        process.env.JWT_REFRESH_SECRET, // Usa la nuova chiave specifica per i refresh token, metodo più sicuro
         {expiresIn: '7d'}
     );
     return {accessToken, refreshToken};
@@ -29,7 +30,7 @@ exports.creaUtente = async (req, res) => {
             return res.status(403).json({message: "Email già in uso."}) //Forbidden: in questo caso poichè ci sono duplicati
         }
         //Fine controlli
-        const nuovoUtente = new Utente({nome, cognome, email, password, dataNascita, sesso});
+        const nuovoUtente = new Utente({nome, cognome, email, password, username, dataNascita, sesso}); // Rimuovo hashing esplicito, aggiungendo username
         await nuovoUtente.save();
 
         res.status(201).json({message: "Utente registrato!!!"});
@@ -39,7 +40,7 @@ exports.creaUtente = async (req, res) => {
     }
 };
 
-// POST /api/utenti → crea un nuovo utente
+// POST /api/utenti → effettua il login dell'utente
 exports.loginUtente = async (req, res) => {
     try {
         const {email,password} = req.body;
@@ -69,7 +70,8 @@ exports.loginUtente = async (req, res) => {
         res.cookie('jwt', refreshToken, {
             httpOnly: true, //non può essere letto da javascript nel browser, solo il server può accedervi mediante req.cookies
             sameSite: 'Strict', //Cookie non leggibile da altre web app, possibile solo se la richiesta proviene dallo stesso dominio
-            maxAge: 7*24*60*60, //Scadenza 7 giorni
+            maxAge: 7 * 24 * 60 * 60 * 1000, // Scadenza 7 giorni (in millisecondi)
+            // secure: process.env.NODE_ENV === 'production', // Abilitato solo in produzione su HTTPS, ditemi voi
         });
 
         res.json({
