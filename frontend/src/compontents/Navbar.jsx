@@ -61,6 +61,7 @@ export default function Navbar() {
 
                         {/* Drawer laterale */}
                         {/* Drawer si apre con open e poi le caratteristiche di ciò di esso contiene è il paper  */}
+                        {/* prop open  */}
                         <Drawer
                             anchor="right"
                             open={openDrawer}
