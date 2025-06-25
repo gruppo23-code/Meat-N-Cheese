@@ -1,141 +1,313 @@
-import { AppBar, Toolbar, Typography, Button, Box, Divider } from "@mui/material"
+import { AppBar, Toolbar, Button, Box, Divider } from "@mui/material"
+import { Drawer, IconButton, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import {useState} from "react";
+import FastfoodIcon from '@mui/icons-material/LunchDining';
+
+
+const hoverColor = "#A0522D"
+
+
+
+//dichiaro dentro gli hook che devo utilizzare
 
 export default function Navbar() {
+    //useState crea una variabile con stato settato
+    const [openDrawer, setOpenDrawer] = useState(false);
+//hook di materialUI che permette di prendere colori del progetto
+    const theme = useTheme();
+//useMediaQuery mi fa controllare se lo schermo attuale rispetta la condizione tra parentesi
+//theme breakpoints è di materialUI metodo che si attiva per il parametro tra parentesi down significa fino a lg (1200px)
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     return (
+
         <AppBar
             position="static"
             elevation={0}
             sx={{
-                background: "linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #CD853F 100%)",
-                borderBottom: "3px solid #FF6B35",
+                background: "#591216",
+                borderBottom: "2px solid rgba(255, 255, 255, 0.1)",
                 minHeight: "100px",
             }}
         >
+
             <Toolbar sx={{ py: 3, minHeight: "100px" }}>
-                <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-                    <Box
-                        component="img"
-                        src="/placeholder.svg?height=50&width=150"
+
+                <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1, ml:1 }}>
+                    <img
+                        src="/images/Logo_NoBg.png"
                         alt="Meat-N-Cheese Logo"
-                        sx={{
-                            height: 50,
-                            width: 150,
-                            mr: 2,
-                            backgroundColor: "white",
-                            borderRadius: 2,
-                            p: 1,
+                        style={{
+                            height: "70px",           // aumenta se vuoi più grande
+                            width: "auto",            // auto per mantenere proporzioni
+                            marginRight: "1rem",      // più spazio dai bottoni
                             objectFit: "contain",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                            display: "block",         // evita comportamento inline
                         }}
                     />
-                    <Typography
-                        variant="h5"
-                        component="div"
-                        sx={{
-                            fontWeight: "bold",
-                            background: "linear-gradient(45deg, #FFD700, #FFA500)",
-                            backgroundClip: "text",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
-                            fontSize: "1.5rem",
-                        }}
-                    >
-                        MEAT-N-CHEESE
-                    </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Button
-                        color="inherit"
-                        sx={{
-                            mx: 1,
-                            fontWeight: "bold",
-                            fontSize: "1.1rem",
-                            "&:hover": {
-                                backgroundColor: "rgba(255,107,53,0.2)",
-                                transform: "translateY(-2px)",
-                            },
-                            transition: "all 0.3s ease",
-                        }}
-                    >
-                        Menu
-                    </Button>
-                    <Button
-                        color="inherit"
-                        sx={{
-                            mx: 1,
-                            fontWeight: "bold",
-                            fontSize: "1.1rem",
-                            "&:hover": {
-                                backgroundColor: "rgba(255,107,53,0.2)",
-                                transform: "translateY(-2px)",
-                            },
-                            transition: "all 0.3s ease",
-                        }}
-                    >
-                        Locations
-                    </Button>
-                    <Button
-                        color="inherit"
-                        sx={{
-                            mx: 1,
-                            fontWeight: "bold",
-                            fontSize: "1.1rem",
-                            "&:hover": {
-                                backgroundColor: "rgba(255,107,53,0.2)",
-                                transform: "translateY(-2px)",
-                            },
-                            transition: "all 0.3s ease",
-                        }}
-                    >
-                        About
-                    </Button>
 
-                    <Divider orientation="vertical" flexItem sx={{ mx: 2, backgroundColor: "rgba(255,255,255,0.3)" }} />
+                {/* Navbar desktop o mobile */}
+                {isMobile ? (
+                    <>
+                        {/* Icona ☰ su mobile */}
+                        <IconButton
+                            onClick={() => setOpenDrawer(true)}
+                            sx={{ color: "#eae3d1" }}
+                        >
+                            <FastfoodIcon fontSize="large" />
+                        </IconButton>
 
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            mx: 1,
-                            borderColor: "white",
-                            color: "white",
-                            fontWeight: "bold",
-                            fontSize: "1rem",
-                            px: 3,
-                            py: 1,
-                            "&:hover": {
-                                borderColor: "#FFD700",
-                                backgroundColor: "rgba(255,215,0,0.1)",
-                                transform: "translateY(-2px)",
-                            },
-                            transition: "all 0.3s ease",
-                        }}
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            mx: 1,
-                            background: "linear-gradient(45deg, #FF6B35, #FF8C42)",
-                            fontWeight: "bold",
-                            fontSize: "1rem",
-                            px: 3,
-                            py: 1,
-                            boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
-                            "&:hover": {
-                                background: "linear-gradient(45deg, #E55A2B, #E67A35)",
-                                transform: "translateY(-2px)",
-                                boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
-                            },
-                            transition: "all 0.3s ease",
-                        }}
-                    >
-                        Register
-                    </Button>
-                </Box>
+                        {/* Drawer laterale */}
+                        {/* Drawer si apre con open e poi le caratteristiche di ciò di esso contiene è il paper  */}
+                        <Drawer
+                            anchor="right"
+                            open={openDrawer}
+                            onClose={() => setOpenDrawer(false)}
+                            slotProps={{
+                                paper: {
+                                    sx: {
+                                        background: "#591216", // stesso colore della navbar
+                                        color: "white",
+                                        width: 250,
+                                        boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+                                        borderLeft: "2px solid rgba(255, 255, 255, 0.1)",
+                                    }
+                                }
+                            }}
+                        >
+                            {/* Box che ha i bottoni che mi interessano dentro */}
+                            <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+                                <Button
+                                    sx={{
+                                        mx: 1.5,
+                                        fontWeight: "bold",
+                                        fontSize: "1.1rem",
+                                        border: "1px solid white",
+                                        borderRadius: "10px",
+                                        px: 2,
+                                        py: 1,
+                                        color: "white",
+                                        "&:hover": {
+                                            backgroundColor: hoverColor,
+                                            transform: "translateY(-2px)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onClick={() => setOpenDrawer(false)}
+                                >
+                                    Menu
+                                </Button>
+
+
+                                <Button
+                                    sx={{
+                                        mx: 1.5,
+                                        fontWeight: "bold",
+                                        fontSize: "1.1rem",
+                                        border: "1px solid white",
+                                        borderRadius: "10px",
+                                        px: 2,
+                                        py: 1,
+                                        color: "white",
+                                        "&:hover": {
+                                            backgroundColor: hoverColor,
+                                            transform: "translateY(-2px)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onClick={() => setOpenDrawer(false)}
+                                >
+                                    Locations
+                                </Button>
+
+
+                                <Button
+                                    sx={{
+                                        mx: 1.5,
+                                        fontWeight: "bold",
+                                        fontSize: "1.1rem",
+                                        border: "1px solid white",
+                                        borderRadius: "10px",
+                                        px: 2,
+                                        py: 1,
+                                        color: "white",
+                                        "&:hover": {
+                                            backgroundColor: hoverColor,
+                                            transform: "translateY(-2px)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onClick={() => setOpenDrawer(false)}
+                                >
+                                    About
+                                </Button>
+
+                                <Divider sx={{ borderColor: "rgba(255,255,255,0.2)", my: 2 }} />
+
+                                <Button
+                                    variant="outlined"
+                                    sx={{
+                                        mx: 1.5,
+                                        borderColor: "white",
+                                        color: "white",
+                                        fontWeight: "bold",
+                                        fontSize: "1rem",
+                                        borderRadius: "10px",
+                                        px: 3,
+                                        py: 1,
+                                        "&:hover": {
+                                            backgroundColor: hoverColor,
+                                            transform: "translateY(-2px)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onClick={() => setOpenDrawer(false)}
+                                >
+                                    Login
+                                </Button>
+
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        mx: 1.5,
+                                        background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                        fontWeight: "bold",
+                                        fontSize: "1rem",
+                                        px: 3,
+                                        py: 1,
+                                        borderRadius: "10px",
+                                        boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                        "&:hover": {
+                                            background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onClick={() => setOpenDrawer(false)}
+                                >
+                                    Register
+                                </Button>
+                            </Box>
+                        </Drawer>
+                    </>
+                ) : (
+
+                    // Bottoni visibili normalmente  su desktop
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Button
+                            sx={{
+                                mx: 1.5,
+                                fontWeight: "bold",
+                                fontSize: "1.1rem",
+                                border: "1px solid white",
+                                borderRadius: "10px",
+                                px: 2,
+                                py: 1,
+                                color: "white",
+                                "&:hover": {
+                                    backgroundColor: hoverColor,
+                                    transform: "translateY(-2px)",
+                                },
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            Menu
+                        </Button>
+                        <Button
+                            sx={{
+                                mx: 1.5,
+                                fontWeight: "bold",
+                                fontSize: "1.1rem",
+                                border: "1px solid white",
+                                borderRadius: "10px",
+                                px: 2,
+                                py: 1,
+                                color: "white",
+                                "&:hover": {
+                                    backgroundColor: hoverColor,
+                                    transform: "translateY(-2px)",
+                                },
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            Locations
+                        </Button>
+                        <Button
+                            sx={{
+                                mx: 1.5,
+                                fontWeight: "bold",
+                                fontSize: "1.1rem",
+                                border: "1px solid white",
+                                borderRadius: "10px",
+                                px: 2,
+                                py: 1,
+                                color: "white",
+                                "&:hover": {
+                                    backgroundColor: hoverColor,
+                                    transform: "translateY(-2px)",
+                                },
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            About
+                        </Button>
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{
+                                mx: 2,
+                                backgroundColor: "rgba(255,255,255,0.2)",
+                                width: "1px",
+                            }}
+                        />
+                        <Button
+                            variant="outlined"
+                            sx={{
+                                mx: 1.5,
+                                borderColor: "white",
+                                color: "white",
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                                borderRadius: "10px",
+                                px: 3,
+                                py: 1,
+                                "&:hover": {
+                                    backgroundColor: hoverColor,
+                                    transform: "translateY(-2px)",
+                                },
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            Login
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            sx={{
+                                mx: 1.5,
+                                background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                                px: 3,
+                                py: 1,
+                                borderRadius: "10px",
+                                boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                "&:hover": {
+                                    background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                    transform: "translateY(-2px)",
+                                    boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                },
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            Register
+                        </Button>
+                    </Box>
+                )}
             </Toolbar>
         </AppBar>
-    )
+    );
 }
