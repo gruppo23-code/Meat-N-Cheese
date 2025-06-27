@@ -1,104 +1,182 @@
-import { Box, Container, Grid, Typography, IconButton, Divider, Link } from "@mui/material"
-import { Facebook, Instagram, X } from "@mui/icons-material"
+import { Box, Container, Typography, IconButton, Divider } from "@mui/material"
+import { Facebook, Instagram, X, Phone, Email,  } from "@mui/icons-material"
+import RoomIcon from '@mui/icons-material/Room';
 
 export default function Footer() {
     return (
-        <Box
-            sx={{
-                backgroundColor: "#2C1810",
-                color: "white",
-                py: 4,
-                textAlign: "center"
-            }}>
-            <Container maxWidth="lg">
-                <Grid container spacing={4}>
-                    {/* Colonna 1: Logo + descrizione */}
-                    <Grid item xs={12} md={4}>
-                        <Box sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: { xs: "center", md: "flex-start" },
-                            textAlign: { xs: "center", md: "left" }
+        <Box sx=
+                 {{
+                     backgroundColor: "#591216",
+                     color: "white",
+                     py: 6
+                 }}>
+            <Container
+                maxWidth="md">
+
+                {/* Logo e Social */}
+                <Box
+                    sx=
+                        {{ textAlign: "center",
+                            mb: 4
                         }}>
-                            <Box
-                                component="img"
-                                src="/images/Logo_NoBg.png"
-                                alt="Meat-N-Cheese Logo"
-                                sx={{ height: 60,
-                                    width: 150,
-                                    mb: 2,
-                                    objectFit: "contain"
-                                }}
+                    <Box
+                        component="img"
+                        src="/images/erasebg-transformed.png"
+                        alt="Meat-N-Cheese Logo"
+                        sx={{
+                            height: 90,
+                            width: "auto" ,
+                            mb: 3,
+                            objectFit: "contain",
+                        }}
+                    />
+
+                    {/* Social Media */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            gap: 2, justifyContent: "center",
+                            mb: 3
+                        }}>
+
+                        <IconButton
+                            sx={{
+                                color: "white",
+                                backgroundColor: "#FF6B35",
+                                "&:hover": { backgroundColor: "#E55A2B", transform: "scale(1.1)" },
+                                transition: "all 0.3s ease",
+                                width: 40,
+                                height: 40,
+                            }}
+                        >
+                            <
+                                Instagram
                             />
 
-                            <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)" }}>
-                                Il food truck che porta i migliori SmashBurger direttamente a te. Ingredienti freschi, sapori autentici e qualità premium su ruote.
+                        </IconButton>
 
-                            </Typography>
-
-                        </Box>
-
-                    </Grid>
-
-                    {/* Colonna 2: Link utili */}
-                    <Grid item xs={12} md={4}>
-                        <Typography variant="h6" gutterBottom>
-                            Link Utili
-                        </Typography>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                            <Typography sx={{ color: "#FF6B35" }}>Menù</Typography>
-                            <Typography sx={{ color: "#FF6B35" }}>Dove Siamo</Typography>
-                            <Typography sx={{ color: "#FF6B35" }}>Chi Siamo</Typography>
-                            <Typography sx={{ color: "#FF6B35" }}>Contattaci</Typography>
-                        </Box>
-
-                    </Grid>
-
-                    {/* Colonna 3: Social */}
-                    <Grid item xs={12} md={4}>
-                        <Typography variant="h6" gutterBottom>
-                            Seguici
-                        </Typography>
-                        <Box sx={{ display: "flex",
-                            gap: 2,
-                            mt: 1
-                        }}>
-                            <IconButton  sx={{ color: "white",
+                        <IconButton
+                            sx={{
+                                color: "white",
                                 backgroundColor: "#FF6B35",
-                                '&:hover': { backgroundColor: "#E55A2B" },
-                                width: 42,
-                                height: 42 }}>
-                                <Facebook />
-                            </IconButton>
+                                "&:hover": { backgroundColor: "#E55A2B", transform: "scale(1.1)" },
+                                transition: "all 0.3s ease",
+                                width: 40,
+                                height: 40,
+                            }}
+                        >
+                            <
+                                Facebook
+                            />
 
-                            <IconButton  sx={{ color: "white", backgroundColor: "#FF6B35", '&:hover': { backgroundColor: "#E55A2B" }, width: 42, height: 42 }}>
-                                <Instagram />
-                            </IconButton>
-
-                            <IconButton  sx={{ color: "white",
+                        </IconButton>
+                        <IconButton
+                            sx={{
+                                color: "white",
                                 backgroundColor: "#FF6B35",
-                                '&:hover': { backgroundColor: "#E55A2B" },
-                                width: 42, height: 42
-                            }}>
-                                <X />
-                            </IconButton>
+                                "&:hover": { backgroundColor: "#E55A2B", transform: "scale(1.1)" },
+                                transition: "all 0.3s ease",
+                                width: 40,
+                                height: 40,
+                            }}
+                        >
+                            <X />
+                        </IconButton>
+                    </Box>
+                </Box>
 
-                        </Box>
-                    </Grid>
-                </Grid>
+                {/* Contatti Essenziali */}
+                <Box sx=
+                         {{
+                             display: "flex",
+                             flexDirection: "column",
+                             alignItems : "center",
+                             gap: 4,
+                             mb: 4,
+                             flexWrap: "wrap"
+                         }}>
+                    {/* Instagram */}
+                    <Box sx=
+                             {{
+                                 display: "flex",
+                                 alignItems: "center",
+                                 gap: 1
+                             }}>
+                        <Phone sx=
+                                   {{
+                                       color: "#FF6B35",
+                                       fontSize: 20
+                                   }}
+                        />
+                        <Typography sx=
+                                        {{
+                                            color: "rgba(255,255,255,0.7)",
+                                            fontSize: "1rem"
+                                        }}
+                        >
+                            +39 327 312 7528
+                        </Typography>
+                    </Box>
+
+                    {/* Posizione */}
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1 }}>
+                        <RoomIcon
+                            sx={{
+                                color: "#FF6B35",
+                                fontSize: 20
+                            }}
+                        />
+
+                        <Typography sx=
+                                        {{
+                                            color: "rgba(255,255,255,0.7)",
+                                            fontSize: "1rem" }}
+                        >
+                            Via Repubblica, Acquaviva delle Fonti (BA)
+                        </Typography>
+                    </Box>
 
 
-                {/* Divider + Copyright */}
-                <Divider sx={{ my: 4, backgroundColor: "rgba(255,255,255,0.1)" }} />
+                    {/* Email */}
 
-                <Typography
-                    variant="body2"
-                    align="center"
-                    sx={{
-                        color: "rgba(255,255,255,0.6)"
-                    }}>
-                    © 2025 Meat-N-Cheese Food Truck. Tutti i diritti riservati.
-                </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1 }}>
+                        <Email
+                            sx={{
+                                color: "#FF6B35",
+                                fontSize: 20
+                            }}
+                        />
+
+                        <Typography sx=
+                                        {{
+                                            color: "rgba(255,255,255,0.7)",
+                                            fontSize: "1rem" }}
+                        >
+                            Meat-N-Cheese@gmail.com
+                        </Typography>
+                    </Box>
+
+                </Box>
+
+                {/* Divider */}
+                <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)", mb: 3 }} />
+
+                {/* Copyright */}
+                <Box sx={{ textAlign: "center" }}>
+                    <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
+                        © 2025 Meat-N-Cheese Food Truck. Tutti i diritti riservati.
+                    </Typography>
+
+                </Box>
 
             </Container>
         </Box>
