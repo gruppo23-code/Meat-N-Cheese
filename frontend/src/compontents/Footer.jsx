@@ -1,7 +1,7 @@
 import { Box, Container, Typography, IconButton, Divider } from "@mui/material"
 import { Facebook, Instagram, X, Phone, Email,  } from "@mui/icons-material"
 import RoomIcon from '@mui/icons-material/Room';
-import useTheme from "@mui/material/styles";
+import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 //bottoni social Footer
