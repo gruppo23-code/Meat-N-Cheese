@@ -7,9 +7,26 @@ import Footer from "./compontents/Footer";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-      <Navbar />
-      <App />
-      <Footer />
-  </React.StrictMode>
+    <React.StrictMode>
+        <div style={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column"
+        }}>
+
+            <
+                Navbar
+            />
+            <div
+                style=
+                    {{ flex: 1 }}>
+                <
+                    App
+                />
+            </div>
+            <
+                Footer
+            />
+        </div>
+    </React.StrictMode>
 );
