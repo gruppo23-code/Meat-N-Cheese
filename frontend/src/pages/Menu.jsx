@@ -41,14 +41,22 @@ export default function Menu() {
     })
 
     return (
-        <Box>
+        <Box
+            sx={{
+                backgroundColor: "#FFF4EC",
+                py: 0.1
+        }}
+        >
+
             <Container
                 maxWidth="xl"
                 sx=
                     {{
                         px: { sm: 4 ,md : 8,  lg: 12, xl: 16 },
                         mt: 4,
-                        pb: 5 }}
+                        pb: 5 ,
+                        background: "linear-gradient(to bottom, #FFF4EC 0%, #FFFFFF 100%)"
+            }}
             >
                 {/* Titolo */}
                 <Typography
