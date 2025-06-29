@@ -123,7 +123,7 @@ export default function Home() {
             <Box
                 sx=
                      {{
-                         backgroundColor: "#FFF3ED",
+                         backgroundColor: "#fff7f4",
                          py: 3,
                          px: 2,
                          display: "flex",
@@ -143,13 +143,36 @@ export default function Home() {
                 </Button>
             </Box>
 
+            {/* Foto Truck Mobile  */}
+            <Grid item xs={12} md={5}>
+                <Box
+                    sx={{
+                        textAlign: "center",
+                    }}
+                >
+                    <Box
+                        component="img"
+                        src="https://picsum.photos/id/1025/800/600"
+                        alt="Il nostro truck"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 400,
+                            height: "auto",
+                            borderRadius: 3,
+                            border: "4px solid #FF6B35",
+                            boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                        }}
+                    />
+                </Box>
+            </Grid>
 
             {/* La nostra Storia Mobile */}
             <Box sx=
                      {{
-                         backgroundColor: "#FFF3ED",
+                         backgroundColor: "#fff7f4",
                          py: 4,
-                         px: 2
+                         px: 2 ,
+
             }}
             >
 
@@ -159,7 +182,8 @@ export default function Home() {
                     {{
                         color: "#591216",
                         mb: 2,
-                        textAlign: "center"
+                        textAlign: "center" ,
+                        fontWeight : "bold",
                 }}
                 >
                     La Nostra Storia
@@ -169,7 +193,7 @@ export default function Home() {
                             sx=
                                 {{
                                     color: "#333",
-                                    lineHeight: 1.6
+                                    lineHeight: 1.6,
                 }}
                 >
                     Meat‑N‑Cheese porta su strada il gusto autentico dei panini fatti bene. Freschezza, qualità, passione in ogni morso.
@@ -181,7 +205,7 @@ export default function Home() {
             {/* Card Best Buy Mobile */}
             <Box sx=
                      {{
-                         background: "#FFF4EC",
+                         background: "#fff7f4",
                          py: 4,
                          px: 2
             }}
@@ -192,7 +216,9 @@ export default function Home() {
                                 {{
                                     textAlign: "center",
                                     color: "#591216",
-                                    mb: 4
+                                    mb: 4 ,
+                                    fontWeight : "bold",
+
                 }}
                 >
                     I Nostri Best Buy
@@ -223,7 +249,7 @@ export default function Home() {
             <Box
                 sx=
                     {{
-                        py: 10,
+                        py: 6,
                         background: "#fff7f4",
                         px: 2
             }}
@@ -233,7 +259,8 @@ export default function Home() {
                     textAlign="center"
                     sx=
                         {{ color: "#591216",
-                            mb: 4
+                            mb: 3 ,
+                            fontWeight : "bold",
                 }}
                 >
                     Dove Trovarci
@@ -459,7 +486,7 @@ export default function Home() {
                                 <Container
                                     sx=
                                         {{ textAlign: "center",
-                                            color: "#fff"
+                                            color: "#fff7f4"
                                 }
                                 }>
 
@@ -501,7 +528,7 @@ export default function Home() {
             <Box
                 sx=
                     {{
-                        backgroundColor: "#FFF3ED",
+                        backgroundColor: "#fff7f4",
                         py: 5,
                         textAlign: "center"
             }}
@@ -527,7 +554,8 @@ export default function Home() {
                                     fontWeight: "bold",
                                     fontSize: "1rem",
                                     px: 4,
-                                    py: 1.5
+                                    py: 1.5 ,
+                                    borderRadius : 4
                         }}
                         >
 
@@ -544,7 +572,8 @@ export default function Home() {
                                     fontWeight: "bold",
                                     fontSize: "1rem",
                                     px: 4,
-                                    py: 1.5
+                                    py: 1.5 ,
+                                    borderRadius: 4 ,
                         }}
                         >
                             Dove Trovarci
@@ -562,7 +591,7 @@ export default function Home() {
                 sx=
                     {{
                         py: 10,
-                        background: "#FFF8F0"
+                        background: "#fff7f4"
             }}
             >
 
@@ -580,7 +609,7 @@ export default function Home() {
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
-                                    height: "100%",
+                                    width: "100%",
                                 }}
                             >
                                 <Box
@@ -588,16 +617,17 @@ export default function Home() {
                                     src="https://picsum.photos/id/1025/800/600"
                                     alt="Il nostro truck"
                                     sx={{
-                                        width: "100%",
-                                        maxWidth: 500,
+                                        width: "auto",            // non farla allargare a 100%
+                                        maxWidth: "100%",         // non superare i limiti del contenitore
+                                        height: "auto",
+                                        maxHeight: 400,           //  dimensione fissa utile per allineamento visivo
                                         borderRadius: 3,
                                         border: "4px solid #FF6B35",
                                         boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                                        display: "block",
                                     }}
                                 />
-
                             </Box>
-
                         </Grid>
 
                         {/*  La Nostra Storia Testo Desktop */}
@@ -706,7 +736,7 @@ export default function Home() {
 
             <Box
                 sx=
-                    {{ py: 8, background: "#FFF4EC",
+                    {{ py: 8, background: "#fff7f4",
                         px: { xs: 2, md: 0 }
             }}
             >
@@ -718,7 +748,8 @@ export default function Home() {
                         sx=
                             {{
                                 color: "#591216",
-                                mb: 6
+                                mb: 6 ,
+                                fontWeight: "bold"
                     }}
                     >
                         I Nostri Best Buy
@@ -767,7 +798,8 @@ export default function Home() {
                         textAlign="center"
                         sx=
                             {{ color: "#591216",
-                                mb: 6
+                                mb: 6,
+                                fontWeight: "bold" ,
                     }}>
 
                         Dove Trovarci
