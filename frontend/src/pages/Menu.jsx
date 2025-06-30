@@ -153,13 +153,15 @@ export default function Menu() {
                 fullWidth
                 maxWidth="sm"
                 slotProps={{
-                    sx: {
-                        borderRadius: 3,
-                        backgroundColor: "#FFF4EC",
-                        boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(12px)",
-                        border: "5px solid #FFF4EC",
+                    paper: {
+                        sx: {
+                            borderRadius: 3,
+                            backgroundColor: "#FFF4EC",
+                            boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+                            backdropFilter: "blur(20px)",
+                            WebkitBackdropFilter: "blur(12px)",
+                            border: "5px solid #FFF4EC",
+                        },
                     },
                 }}
             >
