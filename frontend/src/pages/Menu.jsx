@@ -177,7 +177,7 @@ export default function Menu() {
                                 <Box
                                     key={index}
                                     sx={{
-                                        bgcolor: "#fff",
+                                        background: "#fff",
                                         px: 2,
                                         py: 1,
                                         borderRadius: 2,
