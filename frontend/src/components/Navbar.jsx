@@ -3,7 +3,7 @@ import { Drawer, IconButton, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {useState} from "react";
 import FastfoodIcon from '@mui/icons-material/LunchDining';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -14,6 +14,14 @@ const hoverColor = "#A0522D"
 //dichiaro dentro gli hook che devo utilizzare
 
 export default function Navbar() {
+    const isLoggedIn = localStorage.getItem("accessToken");
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        navigate("/");
+    }
+
     //useState crea una variabile con stato settato
     const [openDrawer, setOpenDrawer] = useState(false);
 //hook di materialUI che permette di prendere colori del progetto
@@ -153,57 +161,84 @@ export default function Navbar() {
 
                                 <Divider sx={{ borderColor: "rgba(255,255,255,0.2)", my: 2 }} />
 
-
-                                <Button
-                                    component={Link}
-                                    to="/Login"
-                                    variant="outlined"
-                                    sx={{
-                                        mx: 1.5,
-                                        borderColor: "white",
-                                        color: "white",
-                                        fontWeight: "bold",
-                                        fontSize: "1rem",
-                                        borderRadius: "10px",
-                                        px: 3,
-                                        py: 1,
-                                        "&:hover": {
-                                            backgroundColor: hoverColor,
-                                            transform: "translateY(-2px)",
-                                        },
-                                        transition: "all 0.3s ease",
-                                    }}
-                                    onClick={() => setOpenDrawer(false)}
-                                >
-                                    Login
-                                </Button>
-
-
-
-                                <Button
-                                    component={Link}
-                                    to="/Register"
-                                    variant="contained"
-                                    sx={{
-                                        mx: 1.5,
-                                        background: "linear-gradient(45deg, #A0522D, #D2691E)",
-                                        fontWeight: "bold",
-                                        fontSize: "1rem",
-                                        px: 3,
-                                        py: 1,
-                                        borderRadius: "10px",
-                                        boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
-                                        "&:hover": {
+                                {isLoggedIn ? (
+                                    <Button
+                                        variant="contained"
+                                        sx={{
+                                            mx: 1.5,
                                             background: "linear-gradient(45deg, #A0522D, #D2691E)",
-                                            transform: "translateY(-2px)",
-                                            boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
-                                        },
-                                        transition: "all 0.3s ease",
-                                    }}
-                                    onClick={() => setOpenDrawer(false)}
-                                >
-                                    Register
-                                </Button>
+                                            fontWeight: "bold",
+                                            fontSize: "1rem",
+                                            px: 3,
+                                            py: 1,
+                                            borderRadius: "10px",
+                                            boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                            "&:hover": {
+                                                background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                                transform: "translateY(-2px)",
+                                                boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                            },
+                                            transition: "all 0.3s ease",
+                                        }}
+                                        onClick={handleLogout}
+                                    >
+                                        Logout
+                                    </Button>
+                                ) : (
+                                    <>
+                                        <Button
+                                            component={Link}
+                                            to="/Login"
+                                            variant="outlined"
+                                            sx={{
+                                                mx: 1.5,
+                                                borderColor: "white",
+                                                color: "white",
+                                                fontWeight: "bold",
+                                                fontSize: "1rem",
+                                                borderRadius: "10px",
+                                                px: 3,
+                                                py: 1,
+                                                "&:hover": {
+                                                    backgroundColor: hoverColor,
+                                                    transform: "translateY(-2px)",
+                                                },
+                                                transition: "all 0.3s ease",
+                                            }}
+                                            onClick={() => setOpenDrawer(false)}
+                                        >
+                                            Login
+                                        </Button>
+
+
+
+                                        <Button
+                                            component={Link}
+                                            to="/Register"
+                                            variant="contained"
+                                            sx={{
+                                                mx: 1.5,
+                                                background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                                fontWeight: "bold",
+                                                fontSize: "1rem",
+                                                px: 3,
+                                                py: 1,
+                                                borderRadius: "10px",
+                                                boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                                "&:hover": {
+                                                    background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                                    transform: "translateY(-2px)",
+                                                    boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                                },
+                                                transition: "all 0.3s ease",
+                                            }}
+                                            onClick={() => setOpenDrawer(false)}
+                                        >
+                                            Register
+                                        </Button>
+                                    </>
+                                )
+                                }
                             </Box>
                         </Drawer>
                     </>
@@ -280,53 +315,81 @@ export default function Navbar() {
                             }}
                         />
 
-
-                        <Button
-                            component={Link}
-                            to="/Login"
-                            variant="outlined"
-                            sx={{
-                                mx: 1.5,
-                                borderColor: "white",
-                                color: "white",
-                                fontWeight: "bold",
-                                fontSize: "1rem",
-                                borderRadius: "10px",
-                                px: 3,
-                                py: 1,
-                                "&:hover": {
-                                    backgroundColor: hoverColor,
-                                    transform: "translateY(-2px)",
-                                },
-                                transition: "all 0.3s ease",
-                            }}
-                        >
-                            Login
-                        </Button>
-
-                        <Button
-                            component={Link}
-                            to="/Register"
-                            variant="contained"
-                            sx={{
-                                mx: 1.5,
-                                background: "linear-gradient(45deg, #A0522D, #D2691E)",
-                                fontWeight: "bold",
-                                fontSize: "1rem",
-                                px: 3,
-                                py: 1,
-                                borderRadius: "10px",
-                                boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
-                                "&:hover": {
+                        {isLoggedIn ? (
+                            <Button
+                                onClick={handleLogout}
+                                variant="contained"
+                                sx={{
+                                    mx: 1.5,
                                     background: "linear-gradient(45deg, #A0522D, #D2691E)",
-                                    transform: "translateY(-2px)",
-                                    boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
-                                },
-                                transition: "all 0.3s ease",
-                            }}
-                        >
-                            Register
-                        </Button>
+                                    fontWeight: "bold",
+                                    fontSize: "1rem",
+                                    px: 3,
+                                    py: 1,
+                                    borderRadius: "10px",
+                                    boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                    "&:hover": {
+                                        background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                        transform: "translateY(-2px)",
+                                        boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                    },
+                                    transition: "all 0.3s ease",
+                                }}
+                            >
+                                Logout
+                            </Button>
+                        ) : (
+                            <>
+                                <Button
+                                    component={Link}
+                                    to="/Login"
+                                    variant="outlined"
+                                    sx={{
+                                        mx: 1.5,
+                                        borderColor: "white",
+                                        color: "white",
+                                        fontWeight: "bold",
+                                        fontSize: "1rem",
+                                        borderRadius: "10px",
+                                        px: 3,
+                                        py: 1,
+                                        "&:hover": {
+                                            backgroundColor: hoverColor,
+                                            transform: "translateY(-2px)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                >
+                                    Login
+                                </Button>
+
+                                <Button
+                                    component={Link}
+                                    to="/Register"
+                                    variant="contained"
+                                    sx={{
+                                        mx: 1.5,
+                                        background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                        fontWeight: "bold",
+                                        fontSize: "1rem",
+                                        px: 3,
+                                        py: 1,
+                                        borderRadius: "10px",
+                                        boxShadow: "0 4px 15px rgba(255,107,53,0.4)",
+                                        "&:hover": {
+                                            background: "linear-gradient(45deg, #A0522D, #D2691E)",
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "0 6px 20px rgba(255,107,53,0.6)",
+                                        },
+                                        transition: "all 0.3s ease",
+                                    }}
+                                >
+                                    Register
+                                </Button>
+                            </>
+                        )
+
+                        }
                     </Box>
                 )}
             </Toolbar>
