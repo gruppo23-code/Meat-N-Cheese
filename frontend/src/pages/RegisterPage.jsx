@@ -157,7 +157,7 @@ export default function RegisterPage() {
                     }}
                 />
 
-                {/* DATA NASCITA */}
+                {/* DATA NASCITA (ho tolto calendario predef. a dx) */}
                 <TextField
                     label="Data di nascita"
                     name="dataNascita"
@@ -165,7 +165,13 @@ export default function RegisterPage() {
                     value={formData.dataNascita}
                     onChange={handleChange}
                     fullWidth
-                    sx={{ mb: 3 }}
+                    sx={{
+                        mb: 3,
+                        "& input[type='date']::-webkit-calendar-picker-indicator": {
+                            display: "none",
+                            WebkitAppearance: "none",
+                        },
+                    }}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                         startAdornment: (
