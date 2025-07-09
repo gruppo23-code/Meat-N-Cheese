@@ -9,7 +9,10 @@ const utentiRoutes = require('./routers/utentiRouter');
 connectDB().then(() => console.log('Connessione a MongoDB completata!')); //metto () invece che una variabile poichè la funzione non restituisce nulla nella promise
 
 const app = express();
-app.use(cors()); //Permette richieste dal frontend
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,      //Abilito lo scambio di cookies
+})); //Permette richieste dal frontend
 app.use(express.json()); //Permette di leggere json nel body delle richieste
 
 //Rotte API

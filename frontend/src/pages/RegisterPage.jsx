@@ -1,8 +1,11 @@
 import {Box, Paper, Typography, TextField, InputAdornment, IconButton, Button, MenuItem,} from "@mui/material";
 import {Email, Lock, Visibility, VisibilityOff, CalendarToday, AccountCircle, Wc, Person, } from "@mui/icons-material";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         nome: "",
@@ -19,6 +22,26 @@ export default function RegisterPage() {
     //modo per gestire tanti input con un'unica funzione onChange
     const handleChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post("http://localhost:5001/api/utenti/register", formData);
+            console.log(response.data.message);
+            navigate("/");
+        } catch (err) {
+            //console.log(err.response.data.dettagli);
+            const dettagli = err.response.data.dettagli;
+
+            const messaggi = dettagli
+                .split(",")               // divide in array ogni errore
+                .map(msg => msg.trim())   // rimuove spazi inutili
+                .join("\n");              // unisce con a capo
+
+            alert(messaggi);
+        }
+    }
 
     return (
         <Box
@@ -205,6 +228,7 @@ export default function RegisterPage() {
                 </TextField>
 
                 <Button
+                    onClick={handleSubmit}
                     variant="contained"
                     fullWidth
                     sx={{

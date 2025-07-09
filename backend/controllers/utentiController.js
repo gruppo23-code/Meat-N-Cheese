@@ -24,10 +24,10 @@ exports.creaUtente = async (req, res) => {
         const {username, email, password, nome, cognome, dataNascita, sesso} = req.body;
         //Controlli
         if (await Utente.findOne({username})) {
-            return res.status(403).json({message: "Username già in uso."}) //Forbidden: in questo caso poichè ci sono duplicati
+            return res.status(403).json({dettagli: "Username già in uso."}) //Forbidden: in questo caso poichè ci sono duplicati
         }
         if (await Utente.findOne({email})) {
-            return res.status(403).json({message: "Email già in uso."}) //Forbidden: in questo caso poichè ci sono duplicati
+            return res.status(403).json({dettagli: "Email già in uso."}) //Forbidden: in questo caso poichè ci sono duplicati
         }
         //Fine controlli
         const nuovoUtente = new Utente({nome, cognome, email, password, username, dataNascita, sesso}); // Rimuovo hashing esplicito, aggiungendo username

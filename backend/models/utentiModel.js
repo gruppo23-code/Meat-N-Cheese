@@ -40,7 +40,7 @@ const utenteSchema = new mongoose.Schema({
     },
     dataNascita: {
         type: Date,
-        required: false
+        required: [true, "La data di nascita è obbligatoria"]
     },
     sesso: {
         type: String,
