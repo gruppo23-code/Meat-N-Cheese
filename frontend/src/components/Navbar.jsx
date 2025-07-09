@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import {useState} from "react";
 import FastfoodIcon from '@mui/icons-material/LunchDining';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 
 
@@ -17,9 +18,17 @@ export default function Navbar() {
     const isLoggedIn = localStorage.getItem("accessToken");
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        navigate("/");
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:5001/api/utenti/logout", {}, {
+                withCredentials: true       //abilita l'invio automatico dei cookie al backend
+            })
+        } catch (err) {
+            console.error("Errore durante il logout: ", err);
+        } finally {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+        }
     }
 
     //useState crea una variabile con stato settato

@@ -11,7 +11,7 @@ const refreshTokenSchema = new mongoose.Schema ({
         ref: 'utenti', //Faccio riferimento all'id utente
         required: true,
     },
-    createdAT: {
+    createdAt: {
         type: Date,
         default: Date.now,
         expires: 7*24*60*60, //Scade dopo 7 giorni

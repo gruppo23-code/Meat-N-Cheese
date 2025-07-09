@@ -71,7 +71,7 @@ exports.loginUtente = async (req, res) => {
             httpOnly: true, //non può essere letto da javascript nel browser, solo il server può accedervi mediante req.cookies
             sameSite: 'Strict', //Cookie non leggibile da altre web app, possibile solo se la richiesta proviene dallo stesso dominio
             maxAge: 7 * 24 * 60 * 60 * 1000, // Scadenza 7 giorni (in millisecondi)
-            // secure: process.env.NODE_ENV === 'production', // Abilitato solo in produzione su HTTPS, ditemi voi
+            secure: false
         });
 
         res.json({
@@ -87,5 +87,27 @@ exports.loginUtente = async (req, res) => {
         console.error("Errore durante il login: ",e);
         res.status(500).json({errore: 'Errore durante il login'});
         //500 internal server error (generico)
+    }
+}
+
+exports.logoutUtente = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.jwt;
+
+        if (!refreshToken) {
+            return res.status(204).json({ message: "Nessun token da eliminare." });
+        }if (!refreshToken) return res.status(204);
+
+        await RefreshToken.findOneAndDelete({token: refreshToken});     //Rimuovo il toke dal db
+
+        res.clearCookie('jwt', {
+            httpOnly: true,
+            sameSite: 'Strict',
+        });
+
+        res.status(200).json({message: "Logout effettuato con successo!"});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({errore: 'Errore durante il logout'});
     }
 }

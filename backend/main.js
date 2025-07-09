@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 //Importazione Rotte
 const utentiRoutes = require('./routers/utentiRouter');
@@ -14,6 +15,7 @@ app.use(cors({
     credentials: true,      //Abilito lo scambio di cookies
 })); //Permette richieste dal frontend
 app.use(express.json()); //Permette di leggere json nel body delle richieste
+app.use(cookieParser()); //Permette di estrarre i cookie dalle richieste HTTP
 
 //Rotte API
 app.use('/api/utenti', utentiRoutes);

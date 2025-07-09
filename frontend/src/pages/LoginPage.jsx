@@ -26,7 +26,9 @@ export default function LoginPage() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:5001/api/utenti/login", formData);
+            const response = await axios.post("http://localhost:5001/api/utenti/login", formData, {
+                withCredentials: true,      //Permetto al cookie di essere salvato nel browser
+            });
 
             //salva il token nel localStorage
             localStorage.setItem("accessToken", response.data.accessToken);
