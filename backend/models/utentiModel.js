@@ -71,4 +71,4 @@ utenteSchema.methods.comparePassword = async function (pass) { //Dichiarazione d
 }
 
 // modello: 'utente', collezione forzata: 'utenti'
-module.exports = mongoose.model('utente', utenteSchema, 'utenti');
+module.exports = mongoose.model('Utente', utenteSchema, 'utenti');
