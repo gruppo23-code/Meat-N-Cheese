@@ -27,11 +27,15 @@ export default function LoginPage() {
 
         try {
             const response = await axios.post("http://localhost:5001/api/utenti/login", formData);
+
+            //salva il token nel localStorage
+            localStorage.setItem("accessToken", response.data.accessToken);
+
             console.log(response.data.message);
             navigate("/") ;
         } catch (err) {
             //console.log(err.response.data.dettagli);
-            const dettagli = err.response.data.dettagli;
+            const dettagli = err.response?.data?.dettagli || err.response?.data?.message || "Errore sconosciuto";
 
             const messaggi = dettagli
                 .split(",")               // divide in array ogni errore
