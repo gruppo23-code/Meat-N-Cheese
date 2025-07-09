@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import { useState } from "react"
-import CardBurgerMenu from "../compontents/CardBurgerMenu"
+import CardBurgerMenu from "../components/CardBurgerMenu"
 import { useTheme } from "@mui/material"
 
 const menuItems = [

@@ -3,6 +3,8 @@ import { Drawer, IconButton, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {useState} from "react";
 import FastfoodIcon from '@mui/icons-material/LunchDining';
+import { Link } from 'react-router-dom';
+
 
 
 const hoverColor = "#A0522D"
@@ -34,6 +36,7 @@ export default function Navbar() {
             <Toolbar sx={{ py: 3, minHeight: "100px" }}>
 
                 <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1, ml:1 }}>
+                    <Link to={"/"}>
                     <img
                         src="/images/Logo_NoBg.png"
                         alt="Meat-N-Cheese Logo"
@@ -45,6 +48,7 @@ export default function Navbar() {
                             display: "block",         // evita comportamento inline
                         }}
                     />
+                    </Link>
                 </Box>
 
 
@@ -81,6 +85,8 @@ export default function Navbar() {
                             {/* Box che ha i bottoni che mi interessano dentro */}
                             <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 2 }}>
                                 <Button
+                                    component={Link}
+                                    to="/Menu"
                                     sx={{
                                         mx: 1.5,
                                         fontWeight: "bold",
@@ -147,7 +153,10 @@ export default function Navbar() {
 
                                 <Divider sx={{ borderColor: "rgba(255,255,255,0.2)", my: 2 }} />
 
+
                                 <Button
+                                    component={Link}
+                                    to="/Login"
                                     variant="outlined"
                                     sx={{
                                         mx: 1.5,
@@ -169,7 +178,11 @@ export default function Navbar() {
                                     Login
                                 </Button>
 
+
+
                                 <Button
+                                    component={Link}
+                                    to="/Register"
                                     variant="contained"
                                     sx={{
                                         mx: 1.5,
@@ -199,6 +212,8 @@ export default function Navbar() {
                     // Bottoni visibili normalmente  su desktop
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <Button
+                            component={Link}
+                            to="/Menu"
                             sx={{
                                 mx: 1.5,
                                 fontWeight: "bold",
@@ -264,7 +279,11 @@ export default function Navbar() {
                                 width: "1px",
                             }}
                         />
+
+
                         <Button
+                            component={Link}
+                            to="/Login"
                             variant="outlined"
                             sx={{
                                 mx: 1.5,
@@ -286,6 +305,8 @@ export default function Navbar() {
                         </Button>
 
                         <Button
+                            component={Link}
+                            to="/Register"
                             variant="contained"
                             sx={{
                                 mx: 1.5,

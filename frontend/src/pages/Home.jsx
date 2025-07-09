@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay, Pagination } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/pagination"
-import CardBurgerHome from "../compontents/CardBurgerHome";
+import CardBurgerHome from "../components/CardBurgerHome";
 import { Phone, Email, Instagram, Facebook, X } from "@mui/icons-material"
 
 export default function Home() {
