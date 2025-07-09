@@ -1,14 +1,4 @@
-import {
-    Container,
-    Typography,
-    TextField,
-    Button,
-    Paper,
-    Grid,
-    Box,
-    InputAdornment,
-    IconButton,
-} from "@mui/material";
+import { Typography, TextField, Button, Paper, Box, InputAdornment, IconButton, } from "@mui/material";
 import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -28,8 +18,9 @@ export default function LoginPage() {
                 backgroundImage: `url("https://blackstone-suomi.com/cdn/shop/articles/47fa793be35fd9a9287a897955f8f62f.webp?v=1721725859")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-
-                justifyContent: "start",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "start",
                 px: 2,
                 py: 12,
             }}
