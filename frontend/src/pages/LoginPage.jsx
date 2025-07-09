@@ -2,7 +2,8 @@ import { Typography, TextField, Button, Paper, Box, InputAdornment, IconButton, 
 import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +11,37 @@ export default function LoginPage() {
     const handleTogglePassword = () => {
         setShowPassword((prev) => !prev);
     };
+
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handleChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post("http://localhost:5001/api/utenti/login", formData);
+            console.log(response.data.message);
+            navigate("/") ;
+        } catch (err) {
+            //console.log(err.response.data.dettagli);
+            const dettagli = err.response.data.dettagli;
+
+            const messaggi = dettagli
+                .split(",")               // divide in array ogni errore
+                .map(msg => msg.trim())   // rimuove spazi inutili
+                .join("\n");              // unisce con a capo
+
+            alert(messaggi);
+        }
+    }
+
 
     return (
         <Box
@@ -54,7 +86,10 @@ export default function LoginPage() {
 
                 <TextField
                     label="Email"
+                    name="email"
                     variant="outlined"
+                    value={formData.email}
+                    onChange={handleChange}
                     sx={{
                         mb: 3,
                         width: "100%",
@@ -74,8 +109,11 @@ export default function LoginPage() {
 
                 <TextField
                     label="Password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     variant="outlined"
+                    value={formData.password}
+                    onChange={handleChange}
                     sx={{
                         mb: 4,
                         width: "100%",
@@ -105,6 +143,7 @@ export default function LoginPage() {
                 />
 
                 <Button
+                    onClick={handleSubmit}
                     variant="contained"
                     sx={{
                         backgroundColor: "#FF6B35",
