@@ -1,20 +1,10 @@
 import {Container, Typography, Button, Grid, Box, IconButton, Badge, Dialog, DialogTitle, DialogContent, DialogActions, useMediaQuery} from "@mui/material"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import CardBurgerMenu from "../components/CardBurgerMenu"
 import { useTheme } from "@mui/material"
+import axios from "axios"
 
-const menuItems = [
-    { id: 1, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 2, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 3, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 4, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 5, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 6, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 7, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 8, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-    { id: 9, name: "Spicy Smashburger", category: "smashburger", description: "...", price: 9.5, image: "https://picsum.photos/seed/smash1/300/200", allergens: ["Glutine"] },
-]
 
 export default function Menu() {
     const [selectedCat, setSelectedCat] = useState("tutti")
@@ -22,15 +12,30 @@ export default function Menu() {
     const [openCart, setOpenCart] = useState(false)
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+    const [menuItems, setMenuItems] = useState([]);     //Per la gestione degli item del menu
+
+    useEffect(() => {
+        const caricaProdotti = async () => {
+            try {
+                const response = await axios.get('http://localhost:5001/api/prodotti/getprodotti');
+                setMenuItems(response.data); //Assegno soltanto i dati della response, quindi i prodotti
+                console.log("Prodotti caricati:", response.data);
+            } catch (error) {
+                console.error("Errore nel caricamento dei prodotti:", error);
+            }
+        };
+
+        caricaProdotti(); // chiamo la funzione al montaggio del componente
+    }, []); // ← array vuoto = effetto eseguito solo al primo montaggio del componente Menu
 
     const categories = [
         { value: "tutti", label: "Tutti" },
-        { value: "smashburger", label: "Smashburger" },
-        { value: "hotdog", label: "Hot Dog" },
-        { value: "pulledpork", label: "Pulled Pork" },
-        { value: "pollo", label: "Pollo" },
-        { value: "fritti", label: "Fritti" },
-        { value: "bevande", label: "Bevande" },
+        { value: "Smashburger", label: "Smashburger" },
+        { value: "Hot Dog", label: "Hot Dog" },
+        { value: "Pulled Pork", label: "Pulled Pork" },
+        { value: "Pollo", label: "Pollo" },
+        { value: "Fritti", label: "Fritti" },
+        { value: "Bevande", label: "Bevande" },
     ]
 
     const handleAddToCart = (item) => {
