@@ -17,8 +17,8 @@ const paninoSchema = new mongoose.Schema({
         required: true,
     }],
     ingredienti: [{
-        type: mongose.Schema.Types.ObjectId,
-        ref: "Ingredienti",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Ingrediente",
         required: true,
     }],
     prezzo: {

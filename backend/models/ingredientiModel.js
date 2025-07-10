@@ -12,3 +12,5 @@ const ingredienteSchema = new mongoose.Schema({
         ref: "Allergene",
     }]
 })
+
+module.exports = mongoose.model("Ingrediente", ingredienteSchema, "ingredienti");
