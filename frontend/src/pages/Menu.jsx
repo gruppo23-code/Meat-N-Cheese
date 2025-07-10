@@ -58,6 +58,22 @@ export default function Menu() {
         return selectedCat === "tutti" || item.category === selectedCat
     })
 
+    //Gestione carrello
+
+    const aggiungiCarrello = async (idProdotto) => {
+        try {
+            const response = await axios.get(`http://localhost:5001/api/ordini/aggiungicarrello`,
+                { prodotto: idProdotto},
+                { withCredentials: true },
+            );
+            console.log("Prodotto aggiunto al carrello: ",response.data)
+        } catch (err) {
+            console.error("Errore nell'aggiunta al carrello: ", err);
+        }
+    }
+
+    //Fine gestione carrello
+
     return (
         <Box sx={{ backgroundColor: "#FFF4EC", py: 0.1 }}>
             <Container maxWidth="xl" sx={{ px: { sm: 4, md: 8, lg: 12, xl: 16 }, mt: 4, pb: 5, background: "linear-gradient(to bottom, #FFF4EC 0%, #FFFFFF 100%)" }}>
@@ -124,7 +140,7 @@ export default function Menu() {
                                 image={item.image}
                                 allergens={item.allergens}
                                 category={item.category}
-                                onAddToCart={() => handleAddToCart(item)}
+                                onAddToCart={() => aggiungiCarrello(item.id)}
                             />
                         </Grid>
                     ))}

@@ -7,12 +7,13 @@ const cookieParser = require('cookie-parser');
 //Importazione Rotte
 const utentiRoutes = require('./routers/utentiRouter');
 const prodottiRoutes = require('./routers/prodottiRouter');
+const ordiniRoutes = require('./routers/ordiniRouter');
 
 connectDB().then(() => console.log('Connessione a MongoDB completata!')); //metto () invece che una variabile poichè la funzione non restituisce nulla nella promise
 
 const app = express();
 app.use(cors({
-    origin: '*', //http://localhost:3000
+    origin: 'http://localhost:3000',
     credentials: true,      //Abilito lo scambio di cookies
 })); //Permette richieste dal frontend
 app.use(express.json()); //Permette di leggere json nel body delle richieste
@@ -22,6 +23,8 @@ app.use(cookieParser()); //Permette di estrarre i cookie dalle richieste HTTP
 app.use('/api/utenti', utentiRoutes);
 
 app.use('/api/prodotti', prodottiRoutes);
+
+app.use('/api/ordini', ordiniRoutes);
 
 
 const port = process.env.PORT || 5001;

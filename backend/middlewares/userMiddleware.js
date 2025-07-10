@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");ma
+const jwt = require("jsonwebtoken");
 
 
 //middleware per verificare la presenza e la validità di un token JWT
