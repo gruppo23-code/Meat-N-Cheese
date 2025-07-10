@@ -112,6 +112,11 @@ export default function Menu() {
     const hanleInviaOrdine = async () => {
         const token = localStorage.getItem("accessToken");
 
+        if (!token) {           // Se non c'è token, reindirizza al login
+            navigate("/login");
+            return;
+        }
+
         try {
             const response = await axios.post(
                 "http://localhost:5001/api/ordini/inviaOrdine",
