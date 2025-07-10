@@ -10,6 +10,7 @@ import RequireAuth from "./components/requireAuth.jsx";
 import OrderPageAdmin from "./pages/OrderPageAdmin";
 import RequireAuthAdmin from "./components/requireAdmin";
 import OrderPageClient from "./pages/OrderPageClient";
+import RequireUser from "./components/requireUser";
 
 export default function App() {
     return (
@@ -30,17 +31,17 @@ export default function App() {
                 } />
                 <Route path="/accesso-negato" element={<RedirectPage />} />
 
-                <Route path="/Ordine" element={
+                <Route path="/OrdineAdmin" element={
                     <RequireAuthAdmin>
                         <OrderPageAdmin/>
                     </RequireAuthAdmin>
                     } />
 
 
-                <Route path="/Ordine" element={
-                    <RequireAuth>
+                <Route path="/OrdineClient" element={
+                    <RequireUser>
                         <OrderPageClient/>
-                    </RequireAuth>
+                    </RequireUser>
                 } />
 
             </Routes>

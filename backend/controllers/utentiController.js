@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 
 //Funzione per generare token
-const generaToken = (idUtente) => {
+const generaToken = (idUtente, ruolo) => {
     const accessToken = jwt.sign(
-        { id: idUtente },
+        { id: idUtente , ruolo: ruolo },
         process.env.JWT_SECRET,
         {expiresIn: '15m'}
     );

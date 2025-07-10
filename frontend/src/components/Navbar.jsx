@@ -16,6 +16,7 @@ const hoverColor = "#A0522D"
 
 export default function Navbar() {
     const isLoggedIn = localStorage.getItem("accessToken");
+    const ruolo = localStorage.getItem("ruolo");
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -127,7 +128,7 @@ export default function Navbar() {
 
                                 <Button
                                     component={Link}
-                                    to="/Ordine"
+                                    to={localStorage.getItem("ruolo") === "admin" ? "/OrdineAdmin" : "/OrdineClient"}
                                     sx={{
                                         mx: 1.5,
                                         fontWeight: "bold",
@@ -145,7 +146,7 @@ export default function Navbar() {
                                     }}
                                     onClick={() => setOpenDrawer(false)}
                                 >
-                                    Ordine
+                                    Ordini
                                 </Button>
 
 
@@ -280,7 +281,7 @@ export default function Navbar() {
                         </Button>
                         <Button
                             component={Link}
-                            to="/Ordine"
+                            to={localStorage.getItem("ruolo") === "admin" ? "/OrdineAdmin" : "/OrdineClient"}
                             sx={{
                                 mx: 1.5,
                                 fontWeight: "bold",

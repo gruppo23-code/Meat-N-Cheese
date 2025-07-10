@@ -10,7 +10,7 @@ router.post('/login',utentiController.loginUtente);
 // Rotta POST /api/utenti/register → crea un nuovo utente
 router.post('/register', utentiController.creaUtente);
 
-//Rotta POST /api/utenti/register → effettua il logout cancellando anche il refresh token
+// Rotta POST /api/utenti/register → effettua il logout cancellando anche il refresh token
 router.post('/logout',utentiController.logoutUtente);
 
 module.exports = router;
