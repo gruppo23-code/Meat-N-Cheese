@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const paninoSchema = new mongoose.Schema({
+const prodottoSchema = new mongoose.Schema({
     nome: {
         type: String,
         required: true,
@@ -34,6 +34,6 @@ const paninoSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     }
-})
+});
 
-module.exports = mongoose.model("Panino", paninoSchema, "panino");
+module.exports = mongoose.model("Prodotto", prodottoSchema, "prodotti");
