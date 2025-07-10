@@ -3,7 +3,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import {useEffect, useState} from "react"
 import CardBurgerMenu from "../components/CardBurgerMenu"
 import { useTheme } from "@mui/material"
-import axios from "axios"
+import axios from "../api/axiosInstance.js"
+import { useNavigate } from "react-router-dom";
 
 
 export default function Menu() {
@@ -19,7 +20,7 @@ export default function Menu() {
             try {
                 const response = await axios.get('http://localhost:5001/api/prodotti/getprodotti');
                 setMenuItems(response.data); //Assegno soltanto i dati della response, quindi i prodotti
-                console.log("Prodotti caricati:", response.data);
+                //console.log("Prodotti caricati:", response.data);
             } catch (error) {
                 console.error("Errore nel caricamento dei prodotti:", error);
             }
@@ -38,9 +39,7 @@ export default function Menu() {
         { value: "Bevande", label: "Bevande" },
     ]
 
-    const handleAddToCart = (item) => {
-        setCart((prev) => [...prev, item])
-    }
+
 
     const handleRemoveFromCart = (itemToRemove) => {
         setCart((prev) => {
@@ -54,23 +53,86 @@ export default function Menu() {
         })
     }
 
-    const filtered = menuItems.filter(item => {
+    const filtered = menuItems.filter(item => { //Filtro per la visualizzazione
         return selectedCat === "tutti" || item.category === selectedCat
     })
 
     //Gestione carrello
 
-    const aggiungiCarrello = async (idProdotto) => {
+    const navigate = useNavigate()
+
+    const handleAddToCart = async (item) => {
+        const token = localStorage.getItem("accessToken");
+
+        if (!token) {           // Se non c'è token, reindirizza al login
+            navigate("/login");
+            return;
+        }
+
+        setCart((prev) => [...prev, item]);
+        console.log("Carrello aggiornato (frontend):", [...cart, item]);
+
         try {
-            const response = await axios.get(`http://localhost:5001/api/ordini/aggiungicarrello`,
-                { prodotto: idProdotto},
-                { withCredentials: true },
+            const response = await axios.post(
+                'http://localhost:5001/api/ordini/aggiungicarrello',
+                { prodotto: item.id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Includo il token nell'header della richiesta in modo tale da verificare se l'utente è loggato
+                    }
+                }
             );
-            console.log("Prodotto aggiunto al carrello: ",response.data)
+            console.log("Ordine salvato sul backend:", response.data);
         } catch (err) {
-            console.error("Errore nell'aggiunta al carrello: ", err);
+            console.error("Errore nell'aggiunta al carrello (backend):", err);
+        }
+    };
+
+    useEffect(() => {
+        const popolaCarrello = async () => {
+            const token = localStorage.getItem("accessToken");
+            try {
+                const response = await axios.get("http://localhost:5001/api/ordini/popolaCarrello", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true,
+                });
+
+                console.log("Risposta dal backend:", response.data);
+                setCart(response.data);
+            } catch (err) {
+                console.error("Errore nel recupero del carrello:", err);
+            }
+        };
+
+        popolaCarrello();
+    }, []);
+
+    const hanleInviaOrdine = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        try {
+            const response = await axios.post(
+                "http://localhost:5001/api/ordini/inviaOrdine",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log("Ordine inviato:", response.data);
+            // Vuota il carrello lato frontend
+            setCart([]);
+            setOpenCart(false);
+        } catch (error) {
+            console.error("Errore nell'invio dell'ordine:", error);
         }
     }
+
+
 
     //Fine gestione carrello
 
@@ -140,7 +202,7 @@ export default function Menu() {
                                 image={item.image}
                                 allergens={item.allergens}
                                 category={item.category}
-                                onAddToCart={() => aggiungiCarrello(item.id)}
+                                onAddToCart={() => handleAddToCart(item)}
                             />
                         </Grid>
                     ))}
@@ -221,6 +283,7 @@ export default function Menu() {
                         </Typography>
                     )}
                     <Button
+                        onClick={hanleInviaOrdine}
                         variant="contained"
                         sx={{
                             backgroundColor: "#FF6B35",

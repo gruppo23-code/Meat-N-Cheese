@@ -4,7 +4,11 @@ const ordiniController = require("../controllers/ordiniController");
 const { verificaToken } = require("../middlewares/userMiddleware");
 const router = express.Router();
 
-router.post('/aggiungicarrello',ordiniController.aggiungiCarrello);
+router.post('/aggiungicarrello', verificaToken(), ordiniController.aggiungiCarrello);
+
+router.get('/popolaCarrello', verificaToken(),ordiniController.popolaCarrello);
+
+router.post('/inviaOrdine', verificaToken(),ordiniController.inviaOrdine);
 
 
 

@@ -16,13 +16,13 @@ const verificaToken = (ruoloRichiesto = null) => {
             if (err) {
                 return res.status(403).send("Token non valido o scaduto");
             }
-
+            
             req.userId = decoded.id;
             req.ruolo = decoded.ruolo;
 
             // Se è richiesto un ruolo specifico, lo verifico
             if (ruoloRichiesto && decoded.ruolo !== ruoloRichiesto) {
-                return res.status(403).send("Accesso riservato agli amministratori");
+                return res.status(401).send("Accesso riservato agli amministratori");
             }
 
             next();

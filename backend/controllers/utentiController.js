@@ -11,7 +11,7 @@ const generaToken = (idUtente, ruolo) => {
         {expiresIn: '15m'}
     );
     const refreshToken = jwt.sign(
-        { id: idUtente },
+        { id: idUtente , ruolo: ruolo },
         process.env.JWT_REFRESH_SECRET, // Usa la nuova chiave specifica per i refresh token, metodo più sicuro
         {expiresIn: '7d'}
     );
@@ -112,3 +112,30 @@ exports.logoutUtente = async (req, res) => {
         res.status(500).json({errore: 'Errore durante il logout'});
     }
 }
+
+exports.refreshToken = async (req, res) => {        //Aggiorno l'access token quando scade
+    const refreshToken = req.cookies.jwt;
+
+    if (!refreshToken) {
+        return res.status(401).json({ message: "Refresh token mancante" });
+    }
+
+    const tokenInDb = await RefreshToken.findOne({ token: refreshToken });
+    if (!tokenInDb) {
+        return res.status(403).json({ message: "Refresh token non valido" });
+    }
+
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: "Token scaduto o non valido" });
+        }
+
+        const nuovoAccessToken = jwt.sign(
+            { id: decoded.id, ruolo: decoded.ruolo },
+            process.env.JWT_SECRET,
+            { expiresIn: "15m" }
+        );
+
+        return res.json({ accessToken: nuovoAccessToken });
+    });
+};

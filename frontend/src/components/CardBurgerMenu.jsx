@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography, Box, Button, Chip } from "@mui/material"
 
-export default function CardBurgerMenu({ name, description, price, image, allergens, category }) {
+export default function CardBurgerMenu({ name, description, price, image, allergens, category , onAddToCart }) {
     return (
         <Card
             sx={{
@@ -71,6 +71,7 @@ export default function CardBurgerMenu({ name, description, price, image, allerg
                         mt: "auto",
                     }}
                     fullWidth
+                    onClick={onAddToCart}
                 >
                     Ordina
                 </Button>

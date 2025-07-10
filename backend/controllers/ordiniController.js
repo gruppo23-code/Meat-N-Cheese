@@ -9,7 +9,7 @@ exports.aggiungiCarrello = async (req, res) => {
         }
 
         const ordinazione = await Ordine.create({
-            utente: req.user.id,
+            utente: req.userId,
             prodotto,
             stato: "carrello"
         });
@@ -18,5 +18,49 @@ exports.aggiungiCarrello = async (req, res) => {
     } catch (error) {
         console.error("Errore durante l'aggiunta dell'articolo al carrello: ", error);
         res.status(500).json({error: "Internal server error"});
+    }
+}
+
+exports.popolaCarrello = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const ordine = await Ordine.find({utente: userId, stato: 'carrello'}).populate("prodotto", "nome prezzo -_id");
+
+        if (!ordine) {
+            return res.json([]);
+        }
+
+        const rispostaFormattata = ordine.map(o => ({
+            id: o.id,
+            name: o.prodotto.nome,
+            price: o.prodotto.prezzo
+        }))
+        res.json(rispostaFormattata);
+    } catch (err) {
+        console.error("Errore nel recupero del carrello:", err);
+        res.status(500).json({ errore: 'Errore nel recupero del carrello' });
+    }
+}
+
+exports.inviaOrdine = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const result = await Ordine.updateMany(
+            {utente: userId, stato: 'carrello'},
+            {$set: {stato: 'in_preparazione'}}
+        );
+
+        if (!result) {
+            return res.json({messaggio: "Carrello vuoto!!!"});
+        }
+
+        res.status(200).json({
+            messaggio: "Ordine inviato con successo, inviato alla preparazione!!!"
+        });
+    } catch (err) {
+        console.error("Errore durante l'invio dell'ordine:", err);
+        res.status(500).json({ errore: "Errore durante l'invio dell'ordine" });
     }
 }
