@@ -2,7 +2,7 @@ import { useState } from "react";
 import {Box, Typography, Grid, Paper, Divider, List, ListItem, ListItemText, Button} from "@mui/material";
 import CardBurgerHome from "../components/CardBurgerHome.jsx";
 
-export default function OrderPage() {
+export default function OrderPageAdmin() {
     const [ordini, setOrdini] = useState([
         {
             utente: { email: "gino@example.com" },
