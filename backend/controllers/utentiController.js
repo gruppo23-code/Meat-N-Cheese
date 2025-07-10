@@ -61,8 +61,8 @@ exports.loginUtente = async (req, res) => {
             return res.status(401).json({message: "Credenziali errate!!!"})
         }
 
-        //Gestione tokens
-        const {accessToken, refreshToken} = generaToken(utente._id);
+        //Gestione tokens con ruolo anche
+        const {accessToken, refreshToken} = generaToken(utente._id, utente.ruolo ) ;
         await RefreshToken.create({token: refreshToken, userId: utente._id}); // salvo il refreshToken nel db
         //Fine gestione tokens
 

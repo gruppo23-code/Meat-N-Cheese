@@ -16,7 +16,6 @@ const hoverColor = "#A0522D"
 
 export default function Navbar() {
     const isLoggedIn = localStorage.getItem("accessToken");
-    const ruolo = localStorage.getItem("ruolo");
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -31,6 +30,25 @@ export default function Navbar() {
             navigate("/");
         }
     }
+
+    //funzione per verificare ruolo quando clicco su ordine anche se ce l'ho memorizzato in localStorage
+    const handleOrdineClick = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        try {
+            const res = await axios.get("http://localhost:5001/api/ordini/ordine-ruolo", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            // Se tutto ok, reindirizza alla pagina corretta
+            navigate(res.data.redirect);
+        } catch (error) {
+            console.error("Errore nel reindirizzamento:", error);
+            navigate("/accesso-negato");
+        }
+    };
 
     //useState crea una variabile con stato settato
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -127,8 +145,6 @@ export default function Navbar() {
 
 
                                 <Button
-                                    component={Link}
-                                    to={localStorage.getItem("ruolo") === "admin" ? "/OrdineAdmin" : "/OrdineClient"}
                                     sx={{
                                         mx: 1.5,
                                         fontWeight: "bold",
@@ -144,7 +160,13 @@ export default function Navbar() {
                                         },
                                         transition: "all 0.3s ease",
                                     }}
-                                    onClick={() => setOpenDrawer(false)}
+                                    onClick={() => {
+                                        // Chiamiamo la funzione asincrona senza restituire la Promise
+                                        handleOrdineClick().catch((err) => {
+                                            console.error("Errore durante il reindirizzamento:", err);
+                                        });
+                                        setOpenDrawer(false);
+                                    }}
                                 >
                                     Ordini
                                 </Button>
@@ -280,8 +302,6 @@ export default function Navbar() {
                             Menu
                         </Button>
                         <Button
-                            component={Link}
-                            to={localStorage.getItem("ruolo") === "admin" ? "/OrdineAdmin" : "/OrdineClient"}
                             sx={{
                                 mx: 1.5,
                                 fontWeight: "bold",
@@ -296,6 +316,11 @@ export default function Navbar() {
                                     transform: "translateY(-2px)",
                                 },
                                 transition: "all 0.3s ease",
+                            }}
+                            onClick={() => {
+                                handleOrdineClick().catch(err => {
+                                    console.error("Errore nella navigazione:", err);
+                                });
                             }}
                         >
                             Ordine
