@@ -7,7 +7,9 @@ import Navbar from "./components/Navbar.jsx";
 import RedirectPage from "./pages/RedirectPage";
 
 import RequireAuth from "./components/requireAuth.jsx";
-import OrderPage from "./pages/OrderPage";
+import OrderPageAdmin from "./pages/OrderPageAdmin";
+import RequireAuthAdmin from "./components/requireAdmin";
+import OrderPageClient from "./pages/OrderPageClient";
 
 export default function App() {
     return (
@@ -27,7 +29,20 @@ export default function App() {
                     </RequireAuth>
                 } />
                 <Route path="/accesso-negato" element={<RedirectPage />} />
-                <Route path="/Ordine" element={<OrderPage />} />
+
+                <Route path="/Ordine" element={
+                    <RequireAuthAdmin>
+                        <OrderPageAdmin/>
+                    </RequireAuthAdmin>
+                    } />
+
+
+                <Route path="/Ordine" element={
+                    <RequireAuth>
+                        <OrderPageClient/>
+                    </RequireAuth>
+                } />
+
             </Routes>
         </BrowserRouter>
     );
