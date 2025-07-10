@@ -41,17 +41,23 @@ export default function Menu() {
 
 
 
-    const handleRemoveFromCart = (itemToRemove) => {
-        setCart((prev) => {
-            const index = prev.findIndex(item => item.id === itemToRemove.id)
-            if (index !== -1) {
-                const updated = [...prev]
-                updated.splice(index, 1)
-                return updated
-            }
-            return prev
-        })
-    }
+    const handleRemoveFromCart = async (id) => {
+        const token = localStorage.getItem("accessToken");
+
+        try {
+            await axios.delete(`http://localhost:5001/api/ordini/eliminaDaCarrello/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setCart((prev) => prev.filter(item => item.id !== id));
+
+            console.log("Prodotto rimosso dal carrello");
+        } catch (err) {
+            console.error("Errore nella rimozione:", err);
+        }
+    };
 
     const filtered = menuItems.filter(item => { //Filtro per la visualizzazione
         return selectedCat === "tutti" || item.category === selectedCat
@@ -265,7 +271,7 @@ export default function Menu() {
                                     }}
                                 >
                                     {item.name}
-                                    <Button size="small" color="error" onClick={() => handleRemoveFromCart(item)}>
+                                    <Button size="small" color="error" onClick={() => handleRemoveFromCart(item.id)}>
                                         Rimuovi
                                     </Button>
                                 </Box>

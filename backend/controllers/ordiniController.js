@@ -32,7 +32,7 @@ exports.popolaCarrello = async (req, res) => {
         }
 
         const rispostaFormattata = ordine.map(o => ({
-            id: o.id,
+            id: o._id,
             name: o.prodotto.nome,
             price: o.prodotto.prezzo
         }))
@@ -62,5 +62,25 @@ exports.inviaOrdine = async (req, res) => {
     } catch (err) {
         console.error("Errore durante l'invio dell'ordine:", err);
         res.status(500).json({ errore: "Errore durante l'invio dell'ordine" });
+    }
+}
+
+exports.eliminaDaCarrello = async (req, res) => {
+    try {
+        const ordineId = req.params.id;
+        const userId = req.userId;
+
+        const ordine = await Ordine.findOneAndDelete({
+            _id: ordineId,
+            utente: userId,
+            stato: 'carrello'
+        })
+        if (!ordine) {
+            return res.status(404).json({ messaggio: "Ordine non trovato o già rimosso" });
+        }
+        res.status(200).json({ messaggio: "Ordine rimosso dal carrello con successo" });
+    } catch (err) {
+        console.error("Errore durante la rimozione dal carrello:", err);
+        res.status(500).json({ errore: "Internal server error" });
     }
 }

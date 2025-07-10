@@ -10,6 +10,8 @@ router.get('/popolaCarrello', verificaToken(),ordiniController.popolaCarrello);
 
 router.post('/inviaOrdine', verificaToken(),ordiniController.inviaOrdine);
 
+router.delete('/eliminaDaCarrello/:id', verificaToken(),ordiniController.eliminaDaCarrello);
+
 
 
 // Questa rotta viene chiamata dal frontend per sapere dove reindirizzare l'utente
