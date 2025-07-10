@@ -204,7 +204,7 @@ export default function Menu() {
                                 name={item.name}
                                 description={item.description}
                                 price={item.price}
-                                image={item.image}
+                                image={"images/panini/"+item.image}
                                 allergens={item.allergens}
                                 category={item.category}
                                 onAddToCart={() => handleAddToCart(item)}
