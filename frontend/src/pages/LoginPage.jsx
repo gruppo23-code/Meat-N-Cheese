@@ -30,8 +30,9 @@ export default function LoginPage() {
                 withCredentials: true,      //Permetto al cookie di essere salvato nel browser
             });
 
-            //salva il token nel localStorage
+            //salva il token nel localStorage e il ruolo
             localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("ruolo", response.data.utente.ruolo);
 
             console.log(response.data.message);
             navigate("/") ;

@@ -126,6 +126,8 @@ export default function Navbar() {
 
 
                                 <Button
+                                    component={Link}
+                                    to="/Ordine"
                                     sx={{
                                         mx: 1.5,
                                         fontWeight: "bold",
@@ -143,7 +145,7 @@ export default function Navbar() {
                                     }}
                                     onClick={() => setOpenDrawer(false)}
                                 >
-                                    Locations
+                                    Ordine
                                 </Button>
 
 
@@ -277,6 +279,8 @@ export default function Navbar() {
                             Menu
                         </Button>
                         <Button
+                            component={Link}
+                            to="/Ordine"
                             sx={{
                                 mx: 1.5,
                                 fontWeight: "bold",
@@ -293,7 +297,7 @@ export default function Navbar() {
                                 transition: "all 0.3s ease",
                             }}
                         >
-                            Locations
+                            Ordine
                         </Button>
                         <Button
                             sx={{

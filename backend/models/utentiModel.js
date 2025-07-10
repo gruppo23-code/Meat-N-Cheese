@@ -33,6 +33,7 @@ const utenteSchema = new mongoose.Schema({
     },
     ruolo: {
         type: String,
+        enum: ['cliente' , 'cliente'],
         default: 'cliente'
     },
     attivo: {
