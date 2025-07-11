@@ -1,6 +1,6 @@
 import {Box, Typography, Grid, Divider, Paper, Chip, CircularProgress} from "@mui/material";
 import CardBurgerMenu from "../components/CardBurgerMenu.jsx";
-import axios from "../api/axiosInstance";
+import axios from "axios";
 import {useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
 
