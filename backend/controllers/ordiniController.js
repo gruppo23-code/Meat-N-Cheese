@@ -1,5 +1,6 @@
 const Ordine = require('../models/ordiniModel');
 const { v4: uuidv4 } = require('uuid');
+const {use} = require("express/lib/application");
 
 exports.aggiungiCarrello = async (req, res) => {
     try {
@@ -95,12 +96,35 @@ exports.eliminaDaCarrello = async (req, res) => {
 exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'admin
     try {
         const userId = req.query.userId;
-        //console.log(userId);
-        //console.log("Query ricevuta:", req.query);
+        console.log(userId);
+        console.log("Query ricevuta:", req.query);
 
         let ordini
         if (userId) {
-            ordini = await Ordine.find({utente: userId, stato: 'in_preparazione'});
+            ordini = await Ordine.find({
+                utente: userId,
+                stato: {$in: ['in_preparazione','pronto']}
+            })
+                .sort({stato: 1})       //1 ordinamento crescente, -1 ordinamento decrescente
+                .populate('utente', 'email -_id')
+                .populate({
+                    path: 'prodotto',
+                    select: 'nome descrizione prezzo immagine ingredienti categoria -_id',
+                    populate: [
+                        {
+                            path: 'ingredienti',
+                            select: 'allergeni',
+                            populate: {
+                                path: 'allergeni',
+                                select: 'nome -_id'
+                            }
+                        },
+                        {
+                            path: 'categoria',
+                            select: 'nome -_id'
+                        }
+                    ]
+                });
         } else {    //Caso senza user id, per visualizzazione admin di tutti gli ordini segnati come "in preparazione"
             ordini = await Ordine.find({ stato: 'in_preparazione' })
                 .populate('utente', 'email -_id')
@@ -152,6 +176,7 @@ exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'
             if (!mappaGroupId.has(groupId)) {       //Controllo se Map contiene già una voce con quel groupId
                 mappaGroupId.set(groupId, {         //Se non esiste una voce con quel groupId, la vado a creare, questo vuol dire che in questo caso avrò un nuovo blocco di ordini
                     utente: { email },              //Qui assegno già la mail
+                    stato: ordine.stato,
                     items: [prodottoFormattato]
                 });
             } else {
