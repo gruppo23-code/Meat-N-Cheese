@@ -188,9 +188,12 @@ export default function Navbar() {
                                         },
                                         transition: "all 0.3s ease",
                                     }}
-                                    onClick={() => setOpenDrawer(false)}
+                                    onClick={() => {
+                                        setOpenDrawer(false) ;
+                                         navigate("/Ingredienti")
+                                }}
                                 >
-                                    About
+                                    Ingredienti
                                 </Button>
 
                                 <Divider sx={{ borderColor: "rgba(255,255,255,0.2)", my: 2 }} />
@@ -341,8 +344,9 @@ export default function Navbar() {
                                 },
                                 transition: "all 0.3s ease",
                             }}
+                            onClick={() => navigate("/Ingredienti")}
                         >
-                            About
+                            Ingredienti
                         </Button>
                         <Divider
                             orientation="vertical"

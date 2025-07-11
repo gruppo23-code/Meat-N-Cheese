@@ -6,11 +6,13 @@ import "swiper/css"
 import "swiper/css/pagination"
 import CardBurgerHome from "../components/CardBurgerHome";
 import { Phone, Email, Instagram, Facebook, X } from "@mui/icons-material"
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
-
+    const navigate = useNavigate();
     const slideItems = [
         "https://picsum.photos/id/1080/1600/900",
         "https://picsum.photos/id/292/1600/900",
@@ -20,53 +22,73 @@ export default function Home() {
     const burgers = [
         {
             id: 1,
-            title: "Classic Smash",
-            description: "100% manzo, cheddar fuso, cipolla caramellata e salsa speciale.",
-            price: "€8.90",
-            image: "https://picsum.photos/seed/classic-smash/600/400",
-            allergens: ["Glutine", "Lattosio"]
+            title: "Basic",
+            description: "Potato bun, patty da 100g, cheddar, insalata e una salsa a scelta.",
+            price: "€6",
+            image: "/images/panini/basic.jpg",
+            allergens: ["Glutine", "Uova, Latte"]
         },
         {
             id: 2,
-            title: "Spicy BBQ",
-            description: "Con bacon croccante, BBQ affumicata e jalapeños.",
-            price: "€9.50",
-            image: "https://picsum.photos/seed/spicy-bbq/600/400",
-            allergens: ["Glutine"]
+            title: "No Limit",
+            description: "Potato bun, patty da 100g, pulled pork, pickels, bacon e salsa bbq.",
+            price: "€10",
+            image: "/images/panini/nolimit.jpg",
+            allergens: ["Glutine", "Uova"]
         },
         {
             id: 3,
-            title: "Truffle Deluxe",
-            description: "Black Angus, crema al tartufo e formaggio stagionato.",
-            price: "€11.00",
-            image: "https://picsum.photos/seed/truffle-deluxe/600/400",
-            allergens: ["Lattosio"]
+            title: "American",
+            description: "Potato long bun, wurstel di maiale affumicato cotto a vapore, salsa cheddar, pickels e bacon sbriciolato",
+            price: "€5.5",
+            image: "/images/panini/american.jpg",
+            allergens: ["Glutine", "Uova, Latte"]
         },
         {
             id: 4,
-            title: "Smoky Jalapeño",
-            description: "Smashburger con cheddar, salsa affumicata e jalapeños.",
-            price: "€9.00",
-            image: "https://picsum.photos/seed/smoky-jalapeno/600/400",
-            allergens: ["Glutine", "Lattosio"]
+            title: "Freshness",
+            description: "Potato bun, patty da 100g, cheddar, insalata e una salsa a scelta.",
+            price: "€7.50",
+            image: "/images/panini/freshness.jpg",
+            allergens: ["Glutine", "Uova"]
         },
         {
             id: 5,
-            title: "Double Trouble",
-            description: "Doppio manzo, doppio cheddar, doppia bontà.",
-            price: "€10.50",
-            image: "https://picsum.photos/seed/double-trouble/600/400",
-            allergens: ["Glutine", "Lattosio"]
+            title: "Pulled bbq",
+            description: "Potato bun, pulled pork, pickels, bacon e salsa bbq",
+            price: "€6",
+            image: "/images/panini/pulledbbq.jpg",
+            allergens: ["Glutine", "Spezie"]
         },
         {
             id: 6,
-            title: "Veggie Delight",
-            description: "Burger vegetale con avocado, pomodori freschi e hummus.",
-            price: "€8.50",
-            image: "https://picsum.photos/seed/veggie-delight/600/400",
-            allergens: ["Sesamo"]
+            title: "Red Onion",
+            description: "Potato bun, patty da 100g, cheddar, bacon, cipolla caramellata e salsa bbq",
+            price: "7€",
+            image: "/images/panini/redonion.jpg",
+            allergens: ["Glutine", "Formaggio"]
         },
     ]
+
+
+//funzione per ordina ora
+    const handleOrdineClick = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        try {
+            const res = await axios.get("http://localhost:5001/api/ordini/ordine-ruolo", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            // Se tutto ok, reindirizza alla pagina corretta
+            navigate(res.data.redirect);
+        } catch (error) {
+            console.error("Errore nel reindirizzamento:", error);
+            navigate("/accesso-negato");
+        }
+    };
 
     return isMobile ? (
         <Box>
@@ -138,6 +160,7 @@ export default function Home() {
                         py: 1.5,
                         borderRadius : 3
                     }}
+                    onClick={handleOrdineClick}
                 >
                     Ordina Ora
                 </Button>
@@ -148,6 +171,7 @@ export default function Home() {
                 <Box
                     sx={{
                         textAlign: "center",
+                        backgroundColor: "#fff7f4"
                     }}
                 >
                     <Box
@@ -524,7 +548,7 @@ export default function Home() {
 
             </Box>
 
-            {/*Bottone Ordina Ora Mobile */}
+            {/*Bottone Ordina Ora Desktop */}
             <Box
                 sx=
                     {{
@@ -557,6 +581,7 @@ export default function Home() {
                                     py: 1.5 ,
                                     borderRadius : 4
                         }}
+                            onClick={handleOrdineClick}
                         >
 
                             Ordina Ora
