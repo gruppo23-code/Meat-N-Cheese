@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import {useState} from "react";
 import FastfoodIcon from '@mui/icons-material/LunchDining';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from "axios";
+import axios from "../api/axiosInstance";
 
 
 

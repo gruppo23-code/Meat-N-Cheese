@@ -15,7 +15,10 @@ const ordineSchema = new mongoose.Schema({
         type: String,
         enum: ['carrello', 'in_preparazione', 'pronto'],
         default: 'carrello',
-    }
+    },
+    groupId: {
+        type: String
+    },
 });
 
 module.exports = mongoose.model("Ordine", ordineSchema, "ordini");

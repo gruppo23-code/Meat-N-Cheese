@@ -1,4 +1,5 @@
 const Ordine = require('../models/ordiniModel');
+const { v4: uuidv4 } = require('uuid');
 
 exports.aggiungiCarrello = async (req, res) => {
     try {
@@ -46,10 +47,16 @@ exports.popolaCarrello = async (req, res) => {
 exports.inviaOrdine = async (req, res) => {
     try {
         const userId = req.userId;
+        const groupId = uuidv4();       //Genero id univoci per gruppi di ordini, in modo tale da avere raggruppato tutto l'ordine presente nel carrello una volta inviata la comanda
 
         const result = await Ordine.updateMany(
             {utente: userId, stato: 'carrello'},
-            {$set: {stato: 'in_preparazione'}}
+            {
+                $set: {
+                    stato: 'in_preparazione',
+                    groupId: groupId
+                }
+            }
         );
 
         if (!result) {
@@ -82,5 +89,81 @@ exports.eliminaDaCarrello = async (req, res) => {
     } catch (err) {
         console.error("Errore durante la rimozione dal carrello:", err);
         res.status(500).json({ errore: "Internal server error" });
+    }
+}
+
+exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'admin
+    try {
+        const userId = req.query.userId;
+        //console.log(userId);
+        //console.log("Query ricevuta:", req.query);
+
+        let ordini
+        if (userId) {
+            ordini = await Ordine.find({utente: userId, stato: 'in_preparazione'});
+        } else {    //Caso senza user id, per visualizzazione admin di tutti gli ordini segnati come "in preparazione"
+            ordini = await Ordine.find({ stato: 'in_preparazione' })
+                .populate('utente', 'email -_id')
+                .populate({
+                    path: 'prodotto',
+                    select: 'nome descrizione prezzo immagine ingredienti categoria -_id',
+                    populate: [
+                            {
+                            path: 'ingredienti',
+                            select: 'allergeni',
+                            populate: {
+                                path: 'allergeni',
+                                select: 'nome -_id'
+                            }
+                        },
+                        {
+                            path: 'categoria',
+                            select: 'nome -_id'
+                        }
+                ]
+                });
+        }
+
+        const mappaGroupId = new Map();     //Raggruppo per groupId, unico per ordine
+
+        for (const ordine of ordini) {  //Per ogni ordine in "ordini" estratto dal db
+            const groupId = ordine.groupId;     //Mi estraggo il groupID
+            const email = ordine.utente.email;     //Mi prendo la mail del singolo ordine
+            const prodotto = ordine.prodotto;       //Prendo il singolo prodotto
+
+            const allergeni = new Set(); //Set è una collezione di valori unici, ignora i duplicati: ciclo e mi creo un array con tutti gli allergeni del prodotto
+
+            for (const ingrediente of prodotto.ingredienti) {           //Ciclo per raggruppare gli allergeni
+                for (const allergene of ingrediente.allergeni) {
+                    allergeni.add(allergene.nome);      //Aggiungo al set, automaticamente non verranno considerati i duplicati
+                }
+            }
+
+            const prodottoFormattato = {        //Formatto il singolo prodotto, sarà un componente del vettore items dell'output
+                name: prodotto.nome,
+                description: prodotto.descrizione,
+                price: prodotto.prezzo,
+                image: prodotto.immagine,
+                category: prodotto.categoria[0].nome,   //Categoria mi viene ritornato come array, poichè è unica posso farlo
+                allergens: Array.from(allergeni)
+            };
+
+            //Ciclo per raggruppare tutti i prodotti che fanno parte dello stesso ordine
+            if (!mappaGroupId.has(groupId)) {       //Controllo se Map contiene già una voce con quel groupId
+                mappaGroupId.set(groupId, {         //Se non esiste una voce con quel groupId, la vado a creare, questo vuol dire che in questo caso avrò un nuovo blocco di ordini
+                    utente: { email },              //Qui assegno già la mail
+                    items: [prodottoFormattato]
+                });
+            } else {
+                mappaGroupId.get(groupId).items.push(prodottoFormattato);   //Altrimenti se mappaGroupId ha già una voce con quel groupId, semplicemente vado ad aggiungere tale prodotto precedentemente formattato
+            }
+        }
+
+        const risultato = Array.from(mappaGroupId.values());        //Converto i valori della Map (formattati diversamente da ciò che serve a me) in array Javascript standard
+        res.status(200).json(risultato);
+
+    } catch (err) {
+        console.error("Errore nel recupero degli ordini:", err);
+        res.status(500).json({ errore: "Errore nel recupero degli ordini" });
     }
 }

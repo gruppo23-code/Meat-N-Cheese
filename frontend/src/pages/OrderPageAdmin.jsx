@@ -1,65 +1,23 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {Box, Typography, Grid, Paper, Divider, List, ListItem, ListItemText, Button} from "@mui/material";
 import CardBurgerHome from "../components/CardBurgerHome.jsx";
+import axios from "axios";
 
 export default function OrderPageAdmin() {
-    const [ordini, setOrdini] = useState([
-        {
-            utente: { email: "gino@example.com" },
-            items: [
-                {
-                    name: "Spicy Smashburger",
-                    description: "Burger piccante con jalapeño",
-                    price: 9.5,
-                    image: "https://picsum.photos/seed/spicy1/300/200",
-                    allergens: ["Glutine"],
-                    category: "smashburger",
-                },
-                {
-                    name: "Classic Smash",
-                    description: "Burger classico con doppia carne",
-                    price: 8.0,
-                    image: "https://picsum.photos/seed/classic/300/200",
-                    allergens: ["Glutine"],
-                    category: "smashburger",
-                },
-            ],
-        },
-        {
-            utente: { email: "lisa@example.com" },
-            items: [
-                {
-                    name: "Pulled Pork Burger",
-                    description: "Burger con pulled pork e BBQ",
-                    price: 10.0,
-                    image: "https://picsum.photos/seed/pulled1/300/200",
-                    allergens: ["Soia", "Glutine"],
-                    category: "pulledpork",
-                },
-            ],
-        },
-        {
-            utente: { email: "mario@example.com" },
-            items: [
-                {
-                    name: "Chicken Burger",
-                    description: "Burger con pollo croccante e insalata",
-                    price: 9.0,
-                    image: "https://picsum.photos/seed/chicken/300/200",
-                    allergens: ["Uova"],
-                    category: "chicken",
-                },
-                {
-                    name: "Spicy Smashburger",
-                    description: "Extra spicy con habanero",
-                    price: 9.5,
-                    image: "https://picsum.photos/seed/spicy2/300/200",
-                    allergens: ["Glutine"],
-                    category: "smashburger",
-                },
-            ],
-        },
-    ]);
+    const [ordini, setOrdini] = useState([]);
+
+    useEffect(() => {
+        const visualizzaOrdini = async () => {
+            try {
+                const response = await axios.get('http://localhost:5001/api/ordini/visualizzaOrdini');
+                setOrdini(response.data);
+                console.log(response.data);
+            } catch (err) {
+                console.error("Errore nel caricamento degli ordini:", err);
+            }
+        }
+        visualizzaOrdini();
+    },[])
 
     const contaBurgerTotali = () => {
         const counter = {};
@@ -155,7 +113,7 @@ export default function OrderPageAdmin() {
                                                     name={burger.name}
                                                     description={burger.description}
                                                     price={burger.price}
-                                                    image={burger.image}
+                                                    image={"images/panini/"+burger.image}
                                                     allergens={burger.allergens}
                                                     category={burger.category}
                                                 />
