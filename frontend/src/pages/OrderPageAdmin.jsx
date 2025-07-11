@@ -112,7 +112,7 @@ export default function OrderPageAdmin() {
                                                 }
                                             >
                                                 <CardBurgerHome
-                                                    name={burger.name}
+                                                    title={burger.name}
                                                     description={burger.description}
                                                     price={burger.price}
                                                     image={"images/panini/"+burger.image}
