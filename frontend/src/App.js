@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar.jsx";
 import RedirectPage from "./pages/RedirectPage";
+import IngredientiPage from "./pages/IngredientiPage";
 
 import RequireAuth from "./components/requireAuth.jsx";
 import OrderPageAdmin from "./pages/OrderPageAdmin";
@@ -43,6 +44,7 @@ export default function App() {
                         <OrderPageClient/>
                     </RequireUser>
                 } />
+                <Route path="/Ingredienti" element={<IngredientiPage />} />
 
             </Routes>
         </BrowserRouter>
