@@ -6,11 +6,13 @@ import "swiper/css"
 import "swiper/css/pagination"
 import CardBurgerHome from "../components/CardBurgerHome";
 import { Phone, Email, Instagram, Facebook, X } from "@mui/icons-material"
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
-
+    const navigate = useNavigate();
     const slideItems = [
         "https://picsum.photos/id/1080/1600/900",
         "https://picsum.photos/id/292/1600/900",
@@ -67,6 +69,26 @@ export default function Home() {
             allergens: ["Glutine", "Formaggio"]
         },
     ]
+
+
+//funzione per ordina ora
+    const handleOrdineClick = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        try {
+            const res = await axios.get("http://localhost:5001/api/ordini/ordine-ruolo", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            // Se tutto ok, reindirizza alla pagina corretta
+            navigate(res.data.redirect);
+        } catch (error) {
+            console.error("Errore nel reindirizzamento:", error);
+            navigate("/accesso-negato");
+        }
+    };
 
     return isMobile ? (
         <Box>
@@ -138,6 +160,7 @@ export default function Home() {
                         py: 1.5,
                         borderRadius : 3
                     }}
+                    onClick={handleOrdineClick}
                 >
                     Ordina Ora
                 </Button>
@@ -148,6 +171,7 @@ export default function Home() {
                 <Box
                     sx={{
                         textAlign: "center",
+                        backgroundColor: "#fff7f4"
                     }}
                 >
                     <Box
@@ -524,7 +548,7 @@ export default function Home() {
 
             </Box>
 
-            {/*Bottone Ordina Ora Mobile */}
+            {/*Bottone Ordina Ora Desktop */}
             <Box
                 sx=
                     {{
@@ -557,6 +581,7 @@ export default function Home() {
                                     py: 1.5 ,
                                     borderRadius : 4
                         }}
+                            onClick={handleOrdineClick}
                         >
 
                             Ordina Ora
