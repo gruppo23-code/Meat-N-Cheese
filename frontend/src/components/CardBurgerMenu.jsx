@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography, Box, Button, Chip } from "@mui/material"
 
-export default function CardBurgerMenu({ name, description, price, image, allergens, category , onAddToCart }) {
+export default function CardBurgerMenu({ name, description, price, image, allergens, category , onAddToCart , mostraOrdina = true}) {
     return (
         <Card
             sx={{
@@ -62,19 +62,21 @@ export default function CardBurgerMenu({ name, description, price, image, allerg
                     </Box>
                 )}
 
-                <Button
-                    variant="contained"
-                    sx={{
-                        background: "#FF6B35",
-                        fontWeight: "bold",
-                        borderRadius: 2,
-                        mt: "auto",
-                    }}
-                    fullWidth
-                    onClick={onAddToCart}
-                >
-                    Ordina
-                </Button>
+                {mostraOrdina && (
+                    <Button
+                        variant="contained"
+                        sx={{
+                            background: "#FF6B35",
+                            fontWeight: "bold",
+                            borderRadius: 2,
+                            mt: "auto",
+                        }}
+                        fullWidth
+                        onClick={onAddToCart}
+                    >
+                        Ordina
+                    </Button>
+                )}
             </CardContent>
         </Card>
     )

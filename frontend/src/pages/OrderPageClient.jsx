@@ -122,6 +122,7 @@ export default function OrderPageClient() {
                                         image={"images/panini/" + item.image}
                                         allergens={item.allergens}
                                         category={item.category}
+                                        mostraOrdina={false}
                                     />
                                 </Grid>
                             ))}
