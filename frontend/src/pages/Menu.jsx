@@ -70,13 +70,10 @@ export default function Menu() {
     const handleAddToCart = async (item) => {
         const token = localStorage.getItem("accessToken");
 
-        if (!token) {           // Se non c'è token, reindirizza al login
+        if (!token) {
             navigate("/login");
             return;
         }
-
-        setCart((prev) => [...prev, item]);
-        console.log("Carrello aggiornato (frontend):", [...cart, item]);
 
         try {
             const response = await axios.post(
@@ -84,15 +81,30 @@ export default function Menu() {
                 { prodotto: item.id },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}` // Includo il token nell'header della richiesta in modo tale da verificare se l'utente è loggato
+                        Authorization: `Bearer ${token}`
                     }
                 }
             );
-            console.log("Ordine salvato sul backend:", response.data);
+
+            const ordineCreato = response.data.prodotto;
+
+            // Creo oggetto da inserire nel carrello frontend con ID dell'ordine vero
+            const nuovoElemento = {
+                id: ordineCreato._id,            // ID dell'ordine creato
+                name: item.name,
+                price: item.price
+            };
+
+            setCart((prev) => [...prev, nuovoElemento]);
+            //console.log("Ordine salvato sul backend:", ordineCreato);
+
         } catch (err) {
             console.error("Errore nell'aggiunta al carrello (backend):", err);
         }
     };
+
+
+
 
     useEffect(() => {
         const popolaCarrello = async () => {
@@ -105,7 +117,7 @@ export default function Menu() {
                     withCredentials: true,
                 });
 
-                console.log("Risposta dal backend:", response.data);
+                //console.log("Risposta dal backend:", response.data);
                 setCart(response.data);
             } catch (err) {
                 console.error("Errore nel recupero del carrello:", err);
