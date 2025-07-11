@@ -312,7 +312,7 @@ export default function Menu() {
                             backgroundColor: "#FF6B35",
                             color: "#fff",
                             fontWeight: "bold",
-                            width: "60%",
+                            width: "48%",
                             borderRadius: "30px",
                         }}
                     >
