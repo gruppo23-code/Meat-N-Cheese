@@ -96,8 +96,8 @@ exports.eliminaDaCarrello = async (req, res) => {
 exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'admin
     try {
         const userId = req.query.userId;
-        console.log(userId);
-        console.log("Query ricevuta:", req.query);
+        //console.log(userId);
+        //console.log("Query ricevuta:", req.query);
 
         let ordini
         if (userId) {
