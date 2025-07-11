@@ -147,7 +147,7 @@ export default function Menu() {
             );
 
             console.log("Ordine inviato:", response.data);
-            // Vuota il carrello lato frontend
+            // Suota il carrello lato frontend
             setCart([]);
             setOpenCart(false);
         } catch (error) {
