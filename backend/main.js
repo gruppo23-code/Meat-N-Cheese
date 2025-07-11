@@ -13,7 +13,7 @@ connectDB().then(() => console.log('Connessione a MongoDB completata!')); //mett
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.IND_FRONTEND,
     credentials: true,      //Abilito lo scambio di cookies
 })); //Permette richieste dal frontend
 app.use(express.json()); //Permette di leggere json nel body delle richieste

@@ -4,12 +4,14 @@ import CardBurgerHome from "../components/CardBurgerHome.jsx";
 import axios from "axios";
 
 export default function OrderPageAdmin() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const [ordini, setOrdini] = useState([]);
 
     useEffect(() => {
         const visualizzaOrdini = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/ordini/visualizzaOrdini');
+                const response = await axios.get(BASE_URL+'/api/ordini/visualizzaOrdini');
                 setOrdini(response.data);
                 console.log(response.data);
             } catch (err) {

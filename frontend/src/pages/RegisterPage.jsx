@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -27,7 +29,7 @@ export default function RegisterPage() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:5001/api/utenti/register", formData);
+            const response = await axios.post(BASE_URL+"/api/utenti/register", formData);
             console.log(response.data.message);
             navigate("/");
         } catch (err) {

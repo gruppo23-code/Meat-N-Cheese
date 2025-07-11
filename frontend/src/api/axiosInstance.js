@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 // Crea un'istanza Axios
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:5001/api",
+    baseURL: BASE_URL+"/api",
     withCredentials: true, // necessario per inviare il cookie httpOnly del refresh token
 });
 
@@ -31,7 +33,7 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const res = await axios.get("http://localhost:5001/api/utenti/refreshToken", {
+                const res = await axios.get(BASE_URL+"/api/utenti/refreshToken", {
                     withCredentials: true,
                 });
 

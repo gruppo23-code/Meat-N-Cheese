@@ -10,6 +10,8 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
     const navigate = useNavigate();
@@ -76,7 +78,7 @@ export default function Home() {
         const token = localStorage.getItem("accessToken");
 
         try {
-            const res = await axios.get("http://localhost:5001/api/ordini/ordine-ruolo", {
+            const res = await axios.get(BASE_URL+"/api/ordini/ordine-ruolo", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

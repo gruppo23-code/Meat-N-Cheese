@@ -5,6 +5,8 @@ import {useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
 
 export default function OrderPageClient() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const [ordini, setOrdini] = useState([]);
 
     useEffect(() => {
@@ -17,7 +19,7 @@ export default function OrderPageClient() {
 
                 const decoded = jwtDecode(token); // Decodifico il token
 
-                const res = await axios.get(`http://localhost:5001/api/ordini/visualizzaOrdini?userId=${decoded.id}`, {
+                const res = await axios.get(BASE_URL+`/api/ordini/visualizzaOrdini?userId=${decoded.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

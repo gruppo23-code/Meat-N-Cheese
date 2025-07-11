@@ -15,12 +15,14 @@ const hoverColor = "#A0522D"
 //dichiaro dentro gli hook che devo utilizzare
 
 export default function Navbar() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const isLoggedIn = localStorage.getItem("accessToken");
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:5001/api/utenti/logout", {}, {
+            await axios.post(BASE_URL+"/api/utenti/logout", {}, {
                 withCredentials: true       //abilita l'invio automatico dei cookie al backend
             })
         } catch (err) {
@@ -36,7 +38,7 @@ export default function Navbar() {
         const token = localStorage.getItem("accessToken");
 
         try {
-            const res = await axios.get("http://localhost:5001/api/ordini/ordine-ruolo", {
+            const res = await axios.get(BASE_URL+"/api/ordini/ordine-ruolo", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Menu() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const [selectedCat, setSelectedCat] = useState("tutti")
     const [cart, setCart] = useState([])
     const [openCart, setOpenCart] = useState(false)
@@ -18,7 +20,7 @@ export default function Menu() {
     useEffect(() => {
         const caricaProdotti = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/prodotti/getprodotti');
+                const response = await axios.get(BASE_URL+'/api/prodotti/getprodotti');
                 setMenuItems(response.data); //Assegno soltanto i dati della response, quindi i prodotti
                 //console.log("Prodotti caricati:", response.data);
             } catch (error) {
@@ -45,7 +47,7 @@ export default function Menu() {
         const token = localStorage.getItem("accessToken");
 
         try {
-            await axios.delete(`http://localhost:5001/api/ordini/eliminaDaCarrello/${id}`, {
+            await axios.delete(BASE_URL+`/api/ordini/eliminaDaCarrello/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -77,7 +79,7 @@ export default function Menu() {
 
         try {
             const response = await axios.post(
-                'http://localhost:5001/api/ordini/aggiungicarrello',
+                BASE_URL+'/api/ordini/aggiungicarrello',
                 { prodotto: item.id },
                 {
                     headers: {
@@ -110,7 +112,7 @@ export default function Menu() {
         const popolaCarrello = async () => {
             const token = localStorage.getItem("accessToken");
             try {
-                const response = await axios.get("http://localhost:5001/api/ordini/popolaCarrello", {
+                const response = await axios.get(BASE_URL+"/api/ordini/popolaCarrello", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -137,7 +139,7 @@ export default function Menu() {
 
         try {
             const response = await axios.post(
-                "http://localhost:5001/api/ordini/inviaOrdine",
+                BASE_URL+"/api/ordini/inviaOrdine",
                 {},
                 {
                     headers: {

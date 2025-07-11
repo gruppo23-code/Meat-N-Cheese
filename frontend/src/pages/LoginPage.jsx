@@ -6,6 +6,8 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 export default function LoginPage() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -26,7 +28,7 @@ export default function LoginPage() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:5001/api/utenti/login", formData, {
+            const response = await axios.post(BASE_URL+"/api/utenti/login", formData, {
                 withCredentials: true,      //Permetto al cookie di essere salvato nel browser
             });
 
