@@ -12,6 +12,32 @@ export default function IngredientiPage() {
                 </Typography>
             </Box>
 
+
+            {/* Introduzione: Smashburger */}
+            <Paper elevation={3} sx={{ p: 4, background: "#FFF4EC", borderRadius: 4, mb: 5 }}>
+                <Grid container spacing={4} alignItems="center">
+                    <Grid item xs={12} md={6}>
+                        <img
+                            src="/images/ingredienti/smashburger.jpg"
+                            alt="Smashburger"
+                            style={{ width: "100%", borderRadius: "12px" }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h5" sx={{ color: "#FF6B35", fontWeight: "bold" }}>
+                            Cosa sono gli Smashburger?
+                        </Typography>
+                        <Typography sx={{ mt: 2 }}>
+                            Gli <strong>smashburger</strong> sono hamburger preparati pressando la carne sulla piastra bollente,
+                            creando una crosticina caramellata e irresistibile. Utilizziamo una miscela 70/30 di manzo per
+                            garantire succosità e sapore autentico. Ogni panino viene cucinato al momento, con ingredienti
+                            freschi e locali.
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Paper>
+
+
             {/* 1. Potato Bun */}
             <Paper elevation={3} sx={{ p: 4, background: "#FFF4EC", borderRadius: 4, mb: 5 }}>
                 <Grid container spacing={4} alignItems="center">
