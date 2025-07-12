@@ -48,8 +48,9 @@ export default function OrderPageAdmin() {
     const visualizzaOrdini = async () => {
         try {
             const response = await axios.get(BASE_URL+'/api/ordini/visualizzaOrdini');
+            console.log("Dati ricevuti:", response.data);
             setOrdini(response.data);
-            console.log(response.data);
+            console.log("✅ setOrdini chiamato");
         } catch (err) {
             console.error("Errore nel caricamento degli ordini:", err);
         }
@@ -57,7 +58,25 @@ export default function OrderPageAdmin() {
 
     useEffect(() => {
         visualizzaOrdini();
-    },[])
+    },[]);
+
+    const consegnaOrdine = async (groupId) => {
+        try {
+            const response = await axios.post(
+                BASE_URL + "/api/ordini/consegnato",
+                { groupId }, // invio il body con groupId
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+            toast.success("✅ Ordine segnato come pronto!");
+            await visualizzaOrdini();
+        } catch (err) {
+            console.error("Errore nella consegna dell'ordine: ", err);
+        }
+    }
 
     const contaBurgerTotali = () => {
         const counter = {};
@@ -129,7 +148,7 @@ export default function OrderPageAdmin() {
                                     <Button
                                         variant="contained"
                                         size="small"
-                                        onClick={() => console.log("Confermato ordine di", ordine.utente.email)}
+                                        onClick={() => consegnaOrdine(ordine.groupId)}
                                         sx={{
                                             backgroundColor: "#FF6B35",
                                             color: "#FFF4EC",

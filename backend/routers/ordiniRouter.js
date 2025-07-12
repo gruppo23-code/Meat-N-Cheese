@@ -14,6 +14,8 @@ router.delete('/eliminaDaCarrello/:id', verificaToken(),ordiniController.elimina
 
 router.get('/visualizzaOrdini', ordiniController.visualizzaOrdini);
 
+router.post("/consegnato", ordiniController.contrassegnaPronto);
+
 
 // Questa rotta viene chiamata dal frontend per sapere dove reindirizzare l'utente
 router.get('/ordine-ruolo', verificaToken(), (req, res) => {

@@ -180,6 +180,7 @@ exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'
                 mappaGroupId.set(groupId, {         //Se non esiste una voce con quel groupId, la vado a creare, questo vuol dire che in questo caso avrò un nuovo blocco di ordini
                     utente: { email },              //Qui assegno già la mail
                     stato: ordine.stato,
+                    groupId: groupId,
                     items: [prodottoFormattato]
                 });
             } else {
@@ -193,5 +194,27 @@ exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'
     } catch (err) {
         console.error("Errore nel recupero degli ordini:", err);
         res.status(500).json({ errore: "Errore nel recupero degli ordini" });
+    }
+}
+
+exports.contrassegnaPronto = async (req, res) => {
+    try {
+        const { groupId } = req.body;
+
+        if (!groupId) {
+            return res.status(400).json({ messaggio: "groupId mancante!" });
+        }
+
+        const risultato = await Ordine.updateMany(
+            { groupId: groupId, stato: "in_preparazione" },
+            { $set: { stato: "pronto" } }
+        );
+
+        if (risultato.modifiedCount === 0) {
+            return res.status(404).json({ messaggio: "Nessun ordine trovato o già pronto" });
+        }
+    } catch (err) {
+        console.error("Errore nella consegna ordine:", err);
+        res.status(500).json({ messaggio: "Errore interno del server" });
     }
 }
