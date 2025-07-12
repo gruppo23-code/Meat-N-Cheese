@@ -62,6 +62,9 @@ exports.inviaOrdine = async (req, res) => {
 
         if (!result) {
             return res.json({messaggio: "Carrello vuoto!!!"});
+        } else {
+            const io = req.app.get('io');   //recupero l'istanza di scocket.io
+            io.to("admin").emit("nuovo_ordine");    //Invio una notifica agli admin
         }
 
         res.status(200).json({
