@@ -2,22 +2,42 @@ import {useEffect, useState} from "react";
 import {Box, Typography, Grid, Paper, Divider, List, ListItem, ListItemText, Button} from "@mui/material";
 import CardBurgerHome from "../components/CardBurgerHome.jsx";
 import axios from "axios";
+import io from "socket.io-client";
+import {jwtDecode} from "jwt-decode";
+
+const token = localStorage.getItem("accessToken");
+let userId = null;
+
+if (token) {
+    const decoded = jwtDecode(token);
+    console.log(decoded.id);
+    userId = decoded.id;
+}
+
+const socket = io(process.env.REACT_APP_BASE_URL, {    //Inizializzo socket
+    auth: {
+        ruolo: "admin",
+        userId: userId
+    },
+    withCredentials: true
+});
 
 export default function OrderPageAdmin() {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     const [ordini, setOrdini] = useState([]);
 
-    useEffect(() => {
-        const visualizzaOrdini = async () => {
-            try {
-                const response = await axios.get(BASE_URL+'/api/ordini/visualizzaOrdini');
-                setOrdini(response.data);
-                console.log(response.data);
-            } catch (err) {
-                console.error("Errore nel caricamento degli ordini:", err);
-            }
+    const visualizzaOrdini = async () => {
+        try {
+            const response = await axios.get(BASE_URL+'/api/ordini/visualizzaOrdini');
+            setOrdini(response.data);
+            console.log(response.data);
+        } catch (err) {
+            console.error("Errore nel caricamento degli ordini:", err);
         }
+    }
+
+    useEffect(() => {
         visualizzaOrdini();
     },[])
 
@@ -32,6 +52,18 @@ export default function OrderPageAdmin() {
     };
 
     const contatori = contaBurgerTotali();
+
+    useEffect(() => {
+        socket.on("nuovo_ordine", () => {
+            console.log("Nuovo ordine ricevuto");
+            alert("Nuovo ordine!"); // oppure toast
+
+            // Ricarico lista ordini dal server
+            visualizzaOrdini();
+        });
+
+        return () => socket.off("nuovo_ordine");
+    }, []);
 
     return (
         <Box sx={{ display: "flex", p: 4, gap: 4, flexWrap: "wrap" }}>
