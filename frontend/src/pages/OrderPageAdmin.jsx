@@ -5,12 +5,14 @@ import axios from "axios";
 import io from "socket.io-client";
 import {jwtDecode} from "jwt-decode";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const token = localStorage.getItem("accessToken");
 let userId = null;
 
 if (token) {
     const decoded = jwtDecode(token);
-    console.log(decoded.id);
     userId = decoded.id;
 }
 
@@ -24,6 +26,22 @@ const socket = io(process.env.REACT_APP_BASE_URL, {    //Inizializzo socket
 
 export default function OrderPageAdmin() {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+    useEffect(() => {
+        // Questo effetto serve a sbloccare la riproduzione audio nei browser moderni.
+        // I browser bloccano la riproduzione automatica di audio finché l'utente non interagisce con la pagina.
+        // Al primo click dell'utente, riproduciamo silenziosamente l'audio per "autorizzare" future riproduzioni sonore.
+        const sbloccaAudio = () => {
+            const audio = new Audio("/audio/Gta-V-Notifiche.mp3");
+            audio.volume = 0; //L'audio è messo a volume 0, quindi non viene percepito dall'utente
+            audio.play().catch(() => {}); // Se fallisce (es. per blocchi del browser), ignoriamo l'errore
+            document.removeEventListener("click", sbloccaAudio); // Aspettiamo il primo click dell'utente
+        };
+
+        document.addEventListener("click", sbloccaAudio);
+
+        return () => document.removeEventListener("click", sbloccaAudio); // Pulizia dell'effetto quando il componente viene smontato
+    }, []);
 
     const [ordini, setOrdini] = useState([]);
 
@@ -56,7 +74,10 @@ export default function OrderPageAdmin() {
     useEffect(() => {
         socket.on("nuovo_ordine", () => {
             console.log("Nuovo ordine ricevuto");
-            alert("Nuovo ordine!"); // oppure toast
+            toast.success("🛎️ Nuovo ordine ricevuto!");
+
+            const audio = new Audio("/audio/Gta-V-Notifiche.mp3");
+            audio.play();
 
             // Ricarico lista ordini dal server
             visualizzaOrdini();
@@ -67,6 +88,7 @@ export default function OrderPageAdmin() {
 
     return (
         <Box sx={{ display: "flex", p: 4, gap: 4, flexWrap: "wrap" }}>
+            <ToastContainer position="top-right" autoClose={5000} />
             {/* COLONNA SINISTRA: Ordini Card per Utente */}
             <Box sx={{ flex: 3, minWidth: "60%" }}>
                 <Typography variant="h4" sx=
