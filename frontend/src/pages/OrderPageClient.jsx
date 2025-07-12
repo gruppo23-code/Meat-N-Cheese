@@ -3,32 +3,67 @@ import CardBurgerMenu from "../components/CardBurgerMenu.jsx";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
+import io from "socket.io-client";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const token = localStorage.getItem("accessToken");
+let userId = null;
+
+if (token) {
+    const decoded = jwtDecode(token);       //Decodifico userId dall'accessToken
+    userId = decoded.id;
+}
+
+const socket = io(process.env.REACT_APP_BASE_URL, {
+    auth: {
+        ruolo: "cliente",
+        userId: userId,
+    },
+    withCredentials: true,
+});
 
 export default function OrderPageClient() {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+    useEffect(() => {
+        // Questo effetto serve a sbloccare la riproduzione audio nei browser moderni.
+        // I browser bloccano la riproduzione automatica di audio finché l'utente non interagisce con la pagina.
+        // Al primo click dell'utente, riproduciamo silenziosamente l'audio per "autorizzare" future riproduzioni sonore.
+        const sbloccaAudio = () => {
+            const audio = new Audio("/audio/Gta-V-Notifiche.mp3");
+            audio.volume = 0; //L'audio è messo a volume 0, quindi non viene percepito dall'utente
+            audio.play().catch(() => {}); // Se fallisce (es. per blocchi del browser), ignoriamo l'errore
+            document.removeEventListener("click", sbloccaAudio); // Aspettiamo il primo click dell'utente
+        };
+
+        document.addEventListener("click", sbloccaAudio);
+
+        return () => document.removeEventListener("click", sbloccaAudio); // Pulizia dell'effetto quando il componente viene smontato
+    }, []);
+
     const [ordini, setOrdini] = useState([]);
 
+    const fetchOrdiniUtente = async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) return;
+
+            const decoded = jwtDecode(token); // Decodifico il token
+
+            const res = await axios.get(BASE_URL+`/api/ordini/visualizzaOrdini?userId=${decoded.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setOrdini(res.data);
+        } catch (err) {
+            console.error("Errore nel caricamento degli ordini:", err);
+        }
+    };
+
     useEffect(() => {
-
-        const fetchOrdiniUtente = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-
-                if (!token) return;
-
-                const decoded = jwtDecode(token); // Decodifico il token
-
-                const res = await axios.get(BASE_URL+`/api/ordini/visualizzaOrdini?userId=${decoded.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setOrdini(res.data);
-            } catch (err) {
-                console.error("Errore nel caricamento degli ordini:", err);
-            }
-        };
 
         fetchOrdiniUtente();
     }, []);
@@ -92,8 +127,23 @@ export default function OrderPageClient() {
     };
 
 
+    useEffect(() => {           //Gestione real time notifica utente per ordine pronto, ricezione e stampa avviso + audio
+        socket.on("ordine_pronto", (gId) => {
+            const {groupId} = gId;
+            toast.info(`✅ Il tuo ordine con ID ${groupId} è pronto!`);
+
+            const audio = new Audio("/audio/Gta-V-Notifiche.mp3");
+            audio.play();
+
+            fetchOrdiniUtente();
+        });
+
+        return () => socket.off("ordine_pronto");
+    }, []);
+
     return (
         <Box sx={{ py: 5, px: 3 }}>
+            <ToastContainer position="top-right" autoClose={5000} />
             <Typography variant="h4" sx={{ fontWeight: "bold", color: "#591216", mb: 4, textAlign: "center" }}>
                 I Tuoi Ordini
             </Typography>
@@ -107,7 +157,7 @@ export default function OrderPageClient() {
                     <Paper key={index} elevation={4} sx={{ p: 3, mb: 5, borderLeft: "6px solid #591216" }}>
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
                             <Typography variant="h6" sx={{ color: "#591216" }}>
-                                Ordine #{index + 1}
+                                Ordine #{ordine.groupId}
                             </Typography>
                             {getStatoChip(ordine.stato)}
                         </Box>

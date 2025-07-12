@@ -106,9 +106,9 @@ exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'
         if (userId) {
             ordini = await Ordine.find({
                 utente: userId,
-                stato: {$in: ['in_preparazione','pronto']}
+                stato: { $in: ['in_preparazione', 'pronto'] }
             })
-                .sort({stato: 1})       //1 ordinamento crescente, -1 ordinamento decrescente
+                .sort({ createdAt: -1 }) // -1 ordinamento decrescente, più recente prima
                 .populate('utente', 'email -_id')
                 .populate({
                     path: 'prodotto',
@@ -128,6 +128,7 @@ exports.visualizzaOrdini = async (req, res) => {        //Visualizzazione per l'
                         }
                     ]
                 });
+
         } else {    //Caso senza user id, per visualizzazione admin di tutti gli ordini segnati come "in preparazione"
             ordini = await Ordine.find({ stato: 'in_preparazione' })
                 .populate('utente', 'email -_id')
@@ -204,6 +205,7 @@ exports.contrassegnaPronto = async (req, res) => {
         if (!groupId) {
             return res.status(400).json({ messaggio: "groupId mancante!" });
         }
+        const ordini = await Ordine.find({ groupId, stato: "in_preparazione" });        //Mi serve lo userId dell'utente per identificare la "stanza" a cui mandare la notifica
 
         const risultato = await Ordine.updateMany(
             { groupId: groupId, stato: "in_preparazione" },
@@ -213,6 +215,10 @@ exports.contrassegnaPronto = async (req, res) => {
         if (risultato.modifiedCount === 0) {
             return res.status(404).json({ messaggio: "Nessun ordine trovato o già pronto" });
         }
+
+        const userId = ordini[0].utente.toString(); // Recupero userId dall’ordine
+        const io = req.app.get('io');
+        io.to(`utente_${userId}`).emit("ordine_pronto", { groupId }); // Notifica all’utente
     } catch (err) {
         console.error("Errore nella consegna ordine:", err);
         res.status(500).json({ messaggio: "Errore interno del server" });

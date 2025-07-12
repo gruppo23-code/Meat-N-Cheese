@@ -19,6 +19,8 @@ const ordineSchema = new mongoose.Schema({
     groupId: {
         type: String
     },
+}, {
+    timestamps: true // Abilita createdAt e updatedAt automaticamente
 });
 
 module.exports = mongoose.model("Ordine", ordineSchema, "ordini");
