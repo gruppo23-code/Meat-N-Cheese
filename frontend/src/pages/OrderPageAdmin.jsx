@@ -3,10 +3,21 @@ import {Box, Typography, Grid, Paper, Divider, List, ListItem, ListItemText, But
 import CardBurgerHome from "../components/CardBurgerHome.jsx";
 import axios from "axios";
 import io from "socket.io-client";
+import {jwtDecode} from "jwt-decode";
+
+const token = localStorage.getItem("accessToken");
+let userId = null;
+
+if (token) {
+    const decoded = jwtDecode(token);
+    console.log(decoded.id);
+    userId = decoded.id;
+}
 
 const socket = io(process.env.REACT_APP_BASE_URL, {    //Inizializzo socket
     auth: {
-        ruolo: "admin"
+        ruolo: "admin",
+        userId: userId
     },
     withCredentials: true
 });

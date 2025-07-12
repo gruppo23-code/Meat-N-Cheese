@@ -43,15 +43,15 @@ io.on("connection", (socket) => {
     const ruolo = socket.handshake.auth.ruolo;
     const userId = socket.handshake.auth.userId;
 
-    console.log(`Socket connesso: ${socket.id}`);
+    //console.log(`Socket connesso: ${socket.id}`);
     console.log(`Ruolo: ${ruolo} | Utente ID: ${userId}`);
 
     if (ruolo === "admin") {
         socket.join("admin"); // Tutti gli admin nella stessa stanza
-        console.log(`✅ Socket ${socket.id} unito alla stanza 'admin'`);
+        //console.log(`✅ Socket ${socket.id} unito alla stanza 'admin'`);
     } else if (ruolo === "cliente" && userId) {
         socket.join(`utente_${userId}`); // Ogni cliente ha la sua stanza
-        console.log(`✅ Socket ${socket.id} unito alla stanza 'utente_${userId}'`);
+        //console.log(`✅ Socket ${socket.id} unito alla stanza 'utente_${userId}'`);
     }
 
     socket.on("disconnect", () => {
