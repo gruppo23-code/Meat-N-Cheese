@@ -16,9 +16,9 @@ export default function Home() {
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
     const navigate = useNavigate();
     const slideItems = [
-        "https://picsum.photos/id/1080/1600/900",
-        "https://picsum.photos/id/292/1600/900",
-        "https://picsum.photos/id/866/1600/900",
+        "/images/fotoHome/slide2.jpeg" ,
+        "/images/fotoHome/slide3.jpeg",
+        "/images/fotoHome/slide2.jpeg",
     ]
 
     const burgers = [
@@ -178,7 +178,7 @@ export default function Home() {
                 >
                     <Box
                         component="img"
-                        src="https://picsum.photos/id/1025/800/600"
+                        src="/images/fotoHome/slide2.jpeg"
                         alt="Il nostro truck"
                         sx={{
                             width: "100%",
@@ -204,25 +204,52 @@ export default function Home() {
 
                 <Typography
                     variant="h4"
-                    sx=
-                    {{
+                    sx={{
                         color: "#591216",
                         mb: 2,
-                        textAlign: "center" ,
-                        fontWeight : "bold",
-                }}
+                        textAlign: "center",
+                        fontWeight: "bold",
+                    }}
                 >
                     La Nostra Storia
                 </Typography>
 
-                <Typography variant="body1"
-                            sx=
-                                {{
-                                    color: "#333",
-                                    lineHeight: 1.6,
-                }}
+                <Typography
+
+                    sx={{
+                        fontSize: "1.28rem",
+                        color: "#333",
+                        lineHeight: 1.6,
+                    }}
                 >
-                    Meat‑N‑Cheese porta su strada il gusto autentico dei panini fatti bene. Freschezza, qualità, passione in ogni morso.
+                    Tutto è iniziato con una griglia, tanta passione e l’idea di portare in strada qualcosa di davvero buono.
+                    Niente compromessi, solo ingredienti selezionati, pane artigianale e carne pressata al momento sulla piastra rovente.
+                </Typography>
+
+                <Typography
+
+                    sx={{
+                        fontSize: "1.28rem",
+                        color: "#333",
+                        lineHeight: 1.6,
+                        mt: 2,
+                    }}
+                >
+                    <strong>Meat‑N‑Cheese</strong> nasce così: un food truck che unisce lo stile americano degli SmashBurger con l’attenzione italiana per i dettagli.
+                    Ogni panino racconta la nostra storia fatta di sapore, strada, persone e sorrisi.
+                </Typography>
+
+                <Typography
+
+                    sx={{
+                        fontSize: "1.28rem",
+                        color: "#333",
+                        lineHeight: 1.6,
+                        mt: 2,
+                        fontStyle: "italic",
+                    }}
+                >
+                    Non veniamo da un ristorante stellato. Ma ogni giorno, mettiamo le stelle nei panini.
                 </Typography>
 
             </Box>
@@ -641,7 +668,7 @@ export default function Home() {
                             >
                                 <Box
                                     component="img"
-                                    src="https://picsum.photos/id/1025/800/600"
+                                    src="/images/fotoHome/slide2.jpeg"
                                     alt="Il nostro truck"
                                     sx={{
                                         width: "auto",            // non farla allargare a 100%
@@ -662,93 +689,52 @@ export default function Home() {
                             item xs={12} md={7}
                         >
                             <Typography
-                                variant="h3"
-                                sx=
-                                    {{
-                                        color: "#591216",
-                                        fontWeight: "bold",
-                                        mb: 2
-                            }}
-                            >
-                                Our Story
-
-                            </Typography>
-
-                            <Typography
-                                variant="h6"
-                                sx=
-                                    {{
-                                        color: "#FF6B35",
-                                        fontWeight: 500,
-                                        mb: 2
-                            }}
-                            >
-                                At Meat‑N‑Cheese, we're passionate about creating the perfect SmashBurger experience.
-
-                            </Typography>
-
-
-                            <Typography
-                                variant="body1"
-                                sx=
-                                    {{ color: "#333",
-                                        lineHeight: 1.8,
-                                        mb: 3
-                            }}>
-                                Our beef is sourced locally, our buns are baked fresh daily, and every burger is smashed to order
-                                for that perfect crispy edge and juicy center. We bring gourmet quality to street food convenience.
-
-                            </Typography>
-
-                            {/* Box della nostra storia  */}
-                            <Box
+                                variant="h4"
                                 sx={{
-                                    border: "2px dashed #FF6B35",
-                                    p: 3,
-                                    borderRadius: 2,
-                                    backgroundColor: "#FFF1E8",
-                                    mb: 3,
+                                    color: "#591216",
+                                    mb: 2,
+                                    textAlign: "center",
+                                    fontWeight: "bold",
                                 }}
                             >
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        color: "#FF6B35",
-                                        fontWeight: "bold",
-                                        textTransform: "uppercase",
-                                        mb: 1,
-                                        letterSpacing: 1,
-                                    }}
-                                >
-                                    Inserisci qui la tua storia:
-                                </Typography>
-
-
-                                <Typography
-                                    variant="body2"
-                                    sx=
-                                        {{ fontStyle: "italic",
-                                            color: "#654321",
-                                            lineHeight: 1.6
-                                }}
-                                >
-                                    [Qui puoi scrivere la storia del vostro food truck - come è nato, la passione per i burger,
-                                    i valori del brand, le origini, cosa vi rende speciali, la vostra missione, etc. Questo spazio
-                                    è completamente personalizzabile per raccontare la vostra storia unica.]
-                                </Typography>
-
-                            </Box>
+                                La Nostra Storia
+                            </Typography>
 
                             <Typography
-                                variant="body1"
-                                sx=
-                                    {{ color: "#333",
-                                        lineHeight: 1.8
-                            }}
-                            >
-                                Every day we bring fresh ingredients and authentic flavors directly to our community, creating
-                                not just meals, but memorable experiences on wheels.
 
+                                sx={{
+                                    fontSize: "1.28rem",
+                                    color: "#333",
+                                    lineHeight: 1.6,
+                                }}
+                            >
+                                Tutto è iniziato con una griglia, tanta passione e l’idea di portare in strada qualcosa di davvero buono.
+                                Niente compromessi, solo ingredienti selezionati, pane artigianale e carne pressata al momento sulla piastra rovente.
+                            </Typography>
+
+                            <Typography
+
+                                sx={{
+                                    fontSize: "1.28rem",
+                                    color: "#333",
+                                    lineHeight: 1.6,
+                                    mt: 2,
+                                }}
+                            >
+                                <strong>Meat‑N‑Cheese</strong> nasce così: un food truck che unisce lo stile americano degli smashburger con l’attenzione italiana per i dettagli.
+                                Ogni panino racconta la nostra storia fatta di sapore, strada, persone e sorrisi.
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "1.28rem",
+                                    color: "#333",
+                                    lineHeight: 1.6,
+                                    mt: 2,
+                                    fontStyle: "italic",
+                                }}
+                            >
+                                Non veniamo da un ristorante stellato. Ma ogni giorno, mettiamo le stelle nei panini.
                             </Typography>
 
                         </Grid>
