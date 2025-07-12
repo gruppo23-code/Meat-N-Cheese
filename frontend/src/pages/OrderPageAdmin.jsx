@@ -50,7 +50,6 @@ export default function OrderPageAdmin() {
             const response = await axios.get(BASE_URL+'/api/ordini/visualizzaOrdini');
             console.log("Dati ricevuti:", response.data);
             setOrdini(response.data);
-            console.log("✅ setOrdini chiamato");
         } catch (err) {
             console.error("Errore nel caricamento degli ordini:", err);
         }
@@ -62,6 +61,8 @@ export default function OrderPageAdmin() {
 
     const consegnaOrdine = async (groupId) => {
         try {
+            setOrdini(ordini.filter(ordine => ordine.groupId !== groupId));
+
             const response = await axios.post(
                 BASE_URL + "/api/ordini/consegnato",
                 { groupId }, // invio il body con groupId
