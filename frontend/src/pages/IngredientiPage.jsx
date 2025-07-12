@@ -139,7 +139,7 @@ export default function IngredientiPage() {
                             Pulled Pork
                         </Typography>
                         <Typography sx={{ mt: 2 }}>
-                            Il nostro <strong>pulled pork</strong> è preparato lentamente, affumicato a bassa temperatura per ore, fino a diventare tenerissimo. territorio.
+                            Il nostro <strong>pulled pork</strong> è preparato lentamente, affumicato a bassa temperatura per ore, fino a diventare tenerissimo.
                         </Typography>
                     </Grid>
                 </Grid>
