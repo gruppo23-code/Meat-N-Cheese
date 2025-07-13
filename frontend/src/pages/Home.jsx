@@ -8,6 +8,7 @@ import CardBurgerHome from "../components/CardBurgerHome";
 import { Phone, Email, Instagram, Facebook, X } from "@mui/icons-material"
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {useRef} from "react";
 
 export default function Home() {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -75,21 +76,13 @@ export default function Home() {
 
 //funzione per ordina ora
     const handleOrdineClick = async () => {
-        const token = localStorage.getItem("accessToken");
+            navigate("/Menu");
+    };
 
-        try {
-            const res = await axios.get(BASE_URL+"/api/ordini/ordine-ruolo", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
+    const sezioneRef = useRef(null);
 
-            // Se tutto ok, reindirizza alla pagina corretta
-            navigate(res.data.redirect);
-        } catch (error) {
-            console.error("Errore nel reindirizzamento:", error);
-            navigate("/accesso-negato");
-        }
+    const scrollaAllaSezione = () => {
+        sezioneRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     return isMobile ? (
@@ -308,6 +301,7 @@ export default function Home() {
             }}
             >
                 <Typography
+                    onClick={scrollaAllaSezione}
                     variant="h4"
                     textAlign="center"
                     sx=
@@ -618,6 +612,7 @@ export default function Home() {
                         </Button>
 
                         <Button
+                            onClick={scrollaAllaSezione}
                             variant="outlined"
                             sx=
                                 {{
@@ -807,6 +802,7 @@ export default function Home() {
                     maxWidth="lg"
                 >
                     <Typography
+                        ref={sezioneRef}
                         variant="h3"
                         textAlign="center"
                         sx=
